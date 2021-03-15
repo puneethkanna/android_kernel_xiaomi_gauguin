@@ -996,15 +996,23 @@ static void dp_ctrl_mst_calculate_rg(struct dp_ctrl_private *ctrl,
 	u64 raw_target_sc, target_sc_fixp;
 	u64 ts_denom, ts_enum, ts_int;
 	u64 pclk = panel->pinfo.pixel_clk_khz;
+<<<<<<< HEAD
 	u64 lclk = 0;
 	u64 lanes = ctrl->link->link_params.lane_count;
+=======
+	u64 lclk = panel->link_info.rate;
+	u64 lanes = panel->link_info.num_lanes;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	u64 bpp = panel->pinfo.bpp;
 	u64 pbn = panel->pbn;
 	u64 numerator, denominator, temp, temp1, temp2;
 	u32 x_int = 0, y_frac_enum = 0;
 	u64 target_strm_sym, ts_int_fixp, ts_frac_fixp, y_frac_enum_fixp;
 
+<<<<<<< HEAD
 	lclk = drm_dp_bw_code_to_link_rate(ctrl->link->link_params.bw_code);
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	if (panel->pinfo.comp_info.comp_ratio)
 		bpp = panel->pinfo.comp_info.dsc_info.bpp;
 

@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
  *
@@ -73,6 +77,12 @@ struct msm_gem_vma;
 
 #define TEARDOWN_DEADLOCK_RETRY_MAX 5
 
+<<<<<<< HEAD
+=======
+extern atomic_t resume_pending;
+extern wait_queue_head_t resume_wait_q;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 struct msm_file_private {
 	rwlock_t queuelock;
 	struct list_head submitqueues;
@@ -128,6 +138,10 @@ enum msm_mdp_plane_property {
 	PLANE_PROP_SRC_CONFIG,
 	PLANE_PROP_FB_TRANSLATION_MODE,
 	PLANE_PROP_MULTIRECT_MODE,
+<<<<<<< HEAD
+=======
+	PLANE_PROP_MI_LAYER_INFO,
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* total # of properties */
 	PLANE_PROP_COUNT
@@ -163,6 +177,10 @@ enum msm_mdp_crtc_property {
 	CRTC_PROP_CAPTURE_OUTPUT,
 
 	CRTC_PROP_IDLE_PC_STATE,
+<<<<<<< HEAD
+=======
+	CRCT_PROP_MI_FOD_SYNC_INFO,
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* total # of properties */
 	CRTC_PROP_COUNT
@@ -512,7 +530,10 @@ struct msm_resource_caps_info {
  *				 used instead of panel TE in cmd mode panels
  * @roi_caps:           Region of interest capability info
  * @qsync_min_fps	Minimum fps supported by Qsync feature
+<<<<<<< HEAD
  * @has_qsync_min_fps_list True if dsi-supported-qsync-min-fps-list exits
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * @te_source		vsync source pin information
  */
 struct msm_display_info {
@@ -536,8 +557,11 @@ struct msm_display_info {
 	struct msm_roi_caps roi_caps;
 
 	uint32_t qsync_min_fps;
+<<<<<<< HEAD
 	bool has_qsync_min_fps_list;
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	uint32_t te_source;
 };
 
@@ -882,8 +906,12 @@ struct drm_framebuffer *msm_framebuffer_create(struct drm_device *dev,
 		struct drm_file *file, const struct drm_mode_fb_cmd2 *mode_cmd);
 struct drm_framebuffer * msm_alloc_stolen_fb(struct drm_device *dev,
 		int w, int h, int p, uint32_t format);
+<<<<<<< HEAD
 int msm_fb_obj_get_attrs(struct drm_gem_object *obj, int *fb_ns,
 		int *fb_sec, int *fb_sec_dir, unsigned long *flags);
+=======
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev);
 void msm_fbdev_free(struct drm_device *dev);
 

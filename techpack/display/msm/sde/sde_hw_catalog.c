@@ -3209,6 +3209,7 @@ static int _sde_parse_prop_check(struct sde_mdss_cfg *cfg,
 			of_fdt_get_ddrtype() == LP_DDR4_TYPE)
 		cfg->mdp[0].highest_bank_bit = 0x02;
 
+<<<<<<< HEAD
 	cfg->mdp[0].ubwc_static = PROP_VALUE_ACCESS(prop_value, UBWC_STATIC, 0);
 	if (!prop_exists[UBWC_STATIC])
 		cfg->mdp[0].ubwc_static = DEFAULT_SDE_UBWC_STATIC;
@@ -3225,6 +3226,13 @@ static int _sde_parse_prop_check(struct sde_mdss_cfg *cfg,
 			ubwc_static = ((ubwc_static & 0xff8f) | hbb);
 			cfg->mdp[0].ubwc_static = ubwc_static;
 		}
+=======
+	if (IS_SDE_MAJOR_MINOR_SAME(cfg->hwversion, SDE_HW_VER_630)) {
+		ret = _sde_get_ubwc_hbb(prop_exists, prop_value);
+
+		if (ret >= 0)
+			cfg->mdp[0].highest_bank_bit = ret;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 
 	cfg->macrotile_mode = PROP_VALUE_ACCESS(prop_value, MACROTILE_MODE, 0);
@@ -3234,6 +3242,13 @@ static int _sde_parse_prop_check(struct sde_mdss_cfg *cfg,
 	cfg->ubwc_bw_calc_version =
 		PROP_VALUE_ACCESS(prop_value, UBWC_BW_CALC_VERSION, 0);
 
+<<<<<<< HEAD
+=======
+	cfg->mdp[0].ubwc_static = PROP_VALUE_ACCESS(prop_value, UBWC_STATIC, 0);
+	if (!prop_exists[UBWC_STATIC])
+		cfg->mdp[0].ubwc_static = DEFAULT_SDE_UBWC_STATIC;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	cfg->mdp[0].ubwc_swizzle = PROP_VALUE_ACCESS(prop_value,
 			UBWC_SWIZZLE, 0);
 	if (!prop_exists[UBWC_SWIZZLE])
@@ -4352,7 +4367,11 @@ static int _sde_hardware_pre_caps(struct sde_mdss_cfg *sde_cfg, uint32_t hw_rev)
 	} else if (IS_LAGOON_TARGET(hw_rev)) {
 		sde_cfg->has_cwb_support = true;
 		sde_cfg->has_qsync = true;
+<<<<<<< HEAD
 		sde_cfg->perf.min_prefill_lines = 35;
+=======
+		sde_cfg->perf.min_prefill_lines = 24;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		sde_cfg->vbif_qos_nlvl = 8;
 		sde_cfg->ts_prefill_rev = 2;
 		sde_cfg->ctl_rev = SDE_CTL_CFG_VERSION_1_0_0;

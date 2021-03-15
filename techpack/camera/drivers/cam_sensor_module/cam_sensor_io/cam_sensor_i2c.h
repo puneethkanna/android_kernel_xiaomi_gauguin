@@ -9,7 +9,11 @@
 #include <linux/delay.h>
 #include <media/v4l2-subdev.h>
 #include <media/cam_sensor.h>
+<<<<<<< HEAD
 #include "../cam_cci/cam_cci_dev.h"
+=======
+#include "cam_cci_dev.h"
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #include "cam_sensor_io.h"
 
 #define I2C_POLL_TIME_MS 5

@@ -1377,7 +1377,12 @@ static int reverse_path_check(void)
 
 static int ep_create_wakeup_source(struct epitem *epi)
 {
+<<<<<<< HEAD
 	struct name_snapshot n;
+=======
+        const char *name;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	struct wakeup_source *ws;
 
 	if (!epi->ep->ws) {
@@ -1890,9 +1895,15 @@ static int ep_loop_check_proc(void *priv, void *cookie, int call_nests)
 			 * during ep_insert().
 			 */
 			if (list_empty(&epi->ffd.file->f_tfile_llink)) {
+<<<<<<< HEAD
 				if (get_file_rcu(epi->ffd.file))
 					list_add(&epi->ffd.file->f_tfile_llink,
 						 &tfile_check_list);
+=======
+				get_file(epi->ffd.file);
+				list_add(&epi->ffd.file->f_tfile_llink,
+					 &tfile_check_list);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 			}
 		}
 	}
@@ -2086,6 +2097,10 @@ SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
 				error = -ELOOP;
 				if (ep_loop_check(ep, tf.file) != 0)
 					goto error_tgt_fput;
+<<<<<<< HEAD
+=======
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 			} else {
 				get_file(tf.file);
 				list_add(&tf.file->f_tfile_llink,
@@ -2138,7 +2153,10 @@ SYSCALL_DEFINE4(epoll_ctl, int, epfd, int, op, int, fd,
 error_tgt_fput:
 	if (full_check) {
 		clear_tfile_check_list();
+<<<<<<< HEAD
 		loop_check_gen++;
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		mutex_unlock(&epmutex);
 	}
 

@@ -106,6 +106,7 @@ static int _rsc_hw_seq_memory_init_v3(struct sde_rsc_priv *rsc)
 
 	/* Mode - 2 sequence */
 	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x18,
+<<<<<<< HEAD
 						0xf9b9baa0, rsc->debug_mode);
 	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x1c,
 						0x999afebd, rsc->debug_mode);
@@ -117,6 +118,19 @@ static int _rsc_hw_seq_memory_init_v3(struct sde_rsc_priv *rsc)
 						0xfd9d3982, rsc->debug_mode);
 	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x2c,
 						0x2020208c, rsc->debug_mode);
+=======
+						0xbdf9b9a0, rsc->debug_mode);
+	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x1c,
+						0xa13899fe, rsc->debug_mode);
+	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x20,
+						0xe0ac81e1, rsc->debug_mode);
+	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x24,
+						0x3982e2a2, rsc->debug_mode);
+	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x28,
+						0x208cfd9d, rsc->debug_mode);
+	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x2c,
+						0x20202020, rsc->debug_mode);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	dss_reg_w(&rsc->drv_io, SDE_RSCC_SEQ_MEM_0_DRV0 + 0x30,
 						0x20202020, rsc->debug_mode);
 

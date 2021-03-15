@@ -1,6 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  */
 
 #ifndef __SDE_ENCODER_PHYS_H__
@@ -82,7 +86,11 @@ struct sde_encoder_virt_ops {
 	void (*handle_frame_done)(struct drm_encoder *parent,
 			struct sde_encoder_phys *phys, u32 event);
 	void (*get_qsync_fps)(struct drm_encoder *parent,
+<<<<<<< HEAD
 			u32 *qsync_fps, u32 vrr_fps);
+=======
+			u32 *qsync_fps);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 };
 
 /**
@@ -611,6 +619,7 @@ static inline enum sde_3d_blend_mode sde_encoder_helper_get_3d_blend_mode(
 }
 
 /**
+<<<<<<< HEAD
  * sde_encoder_phys_is_cwb_disabling - Check if CWB encoder attached to this
  *	 CRTC and it is in SDE_ENC_DISABLING state.
  * @phys_enc: Pointer to physical encoder structure
@@ -631,6 +640,8 @@ static inline bool sde_encoder_phys_is_cwb_disabling(
 }
 
 /**
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * sde_encoder_helper_split_config - split display configuration helper function
  *	This helper function may be used by physical encoders to configure
  *	the split display related registers.

@@ -233,5 +233,9 @@ source "drivers/gpu/msm/Kconfig"
 
 source "drivers/energy_model/Kconfig"
 
+<<<<<<< HEAD
 source "techpack/data/drivers/Kconfig"
+=======
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 endmenu

@@ -403,7 +403,10 @@ static void dp_usbpd_response_cb(struct usbpd_svid_handler *hdlr, u8 cmd,
 	case DP_USBPD_VDM_CONFIGURE:
 		pd->alt_mode |= DP_USBPD_ALT_MODE_CONFIGURE;
 		pd->dp_usbpd.base.alt_mode_cfg_done = true;
+<<<<<<< HEAD
 		pd->forced_disconnect = false;
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		dp_usbpd_get_status(pd);
 
 		pd->dp_usbpd.base.orientation =

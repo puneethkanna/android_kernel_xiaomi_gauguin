@@ -3586,10 +3586,23 @@ void reg_dmav1_setup_ltm_roiv1(struct sde_hw_dspp *ctx, void *cfg)
 	}
 }
 
+<<<<<<< HEAD
 static void ltm_vlutv1_disable(struct sde_hw_dspp *ctx)
 {
 	enum sde_ltm idx = 0;
 	u32 opmode = 0, offset = 0;
+=======
+static void ltm_vlutv1_disable(struct sde_hw_dspp *ctx, void *cfg,
+		u32 num_mixers, enum sde_ltm *dspp_idx)
+{
+	struct sde_hw_cp_cfg *hw_cfg = cfg;
+	struct sde_hw_reg_dma_ops *dma_ops;
+	struct sde_reg_dma_setup_ops_cfg dma_write_cfg;
+	struct sde_reg_dma_kickoff_cfg kick_off;
+	int rc, i = 0;
+	enum sde_ltm idx = 0;
+	u32 opmode = 0;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	idx = (enum sde_ltm)ctx->idx;
 	if (idx >= LTM_MAX) {
@@ -3597,6 +3610,7 @@ static void ltm_vlutv1_disable(struct sde_hw_dspp *ctx)
 		return;
 	}
 
+<<<<<<< HEAD
 	offset = ctx->cap->sblk->ltm.base + 0x4;
 	ltm_vlut_ops_mask[ctx->idx] &= ~ltm_vlut;
 	opmode = SDE_REG_READ(&ctx->hw, offset);
@@ -3606,6 +3620,42 @@ static void ltm_vlutv1_disable(struct sde_hw_dspp *ctx)
 	else
 		opmode = 0;
 	SDE_REG_WRITE(&ctx->hw, offset, opmode);
+=======
+	dma_ops = sde_reg_dma_get_ops();
+	dma_ops->reset_reg_dma_buf(ltm_buf[LTM_VLUT][idx]);
+	REG_DMA_INIT_OPS(dma_write_cfg, ltm_mapping[idx], LTM_VLUT,
+			ltm_buf[LTM_VLUT][idx]);
+
+	for (i = 0; i < num_mixers; i++) {
+		dma_write_cfg.blk = ltm_mapping[dspp_idx[i]];
+		REG_DMA_SETUP_OPS(dma_write_cfg, 0, NULL, 0, HW_BLK_SELECT, 0,
+				0, 0);
+		rc = dma_ops->setup_payload(&dma_write_cfg);
+		if (rc) {
+			DRM_ERROR("write decode select failed ret %d\n", rc);
+			return;
+		}
+
+		ltm_vlut_ops_mask[dspp_idx[i]] &= ~ltm_vlut;
+		/* disable VLUT/INIT/ROI */
+		REG_DMA_SETUP_OPS(dma_write_cfg, 0x04, &opmode, sizeof(opmode),
+			REG_SINGLE_MODIFY, 0, 0,
+			REG_DMA_LTM_VLUT_DISABLE_OP_MASK);
+		rc = dma_ops->setup_payload(&dma_write_cfg);
+		if (rc) {
+			DRM_ERROR("opmode write failed ret %d\n", rc);
+			return;
+		}
+	}
+
+	REG_DMA_SETUP_KICKOFF(kick_off, hw_cfg->ctl, ltm_buf[LTM_VLUT][idx],
+				REG_DMA_WRITE, DMA_CTL_QUEUE0, WRITE_IMMEDIATE);
+	rc = dma_ops->kick_off(&kick_off);
+	if (rc) {
+		DRM_ERROR("failed to kick off ret %d\n", rc);
+		return;
+	}
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 }
 
 void reg_dmav1_setup_ltm_vlutv1(struct sde_hw_dspp *ctx, void *cfg)
@@ -3625,6 +3675,7 @@ void reg_dmav1_setup_ltm_vlutv1(struct sde_hw_dspp *ctx, void *cfg)
 	if (rc)
 		return;
 
+<<<<<<< HEAD
 	/* disable case */
 	if (!hw_cfg->payload) {
 		DRM_DEBUG_DRIVER("Disable LTM vlut feature\n");
@@ -3632,6 +3683,8 @@ void reg_dmav1_setup_ltm_vlutv1(struct sde_hw_dspp *ctx, void *cfg)
 		return;
 	}
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	idx = (enum sde_ltm)ctx->idx;
 	num_mixers = hw_cfg->num_of_mixers;
 	rc = reg_dmav1_get_ltm_blk(hw_cfg, idx, &dspp_idx[0], &blk);
@@ -3641,6 +3694,16 @@ void reg_dmav1_setup_ltm_vlutv1(struct sde_hw_dspp *ctx, void *cfg)
 		return;
 	}
 
+<<<<<<< HEAD
+=======
+	/* disable case */
+	if (!hw_cfg->payload) {
+		DRM_DEBUG_DRIVER("Disable LTM vlut feature\n");
+		ltm_vlutv1_disable(ctx, cfg, num_mixers, dspp_idx);
+		return;
+	}
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	if (hw_cfg->len != sizeof(struct drm_msm_ltm_data)) {
 		DRM_ERROR("invalid size of payload len %d exp %zd\n",
 				hw_cfg->len, sizeof(struct drm_msm_ltm_data));

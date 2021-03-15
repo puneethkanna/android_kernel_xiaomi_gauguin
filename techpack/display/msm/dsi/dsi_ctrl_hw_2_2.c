@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+<<<<<<< HEAD
  * Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  */
 
 #include "dsi_ctrl_hw.h"
@@ -13,10 +17,13 @@
 /* register to configure DMA scheduling */
 #define DSI_DMA_SCHEDULE_CTRL 0x100
 
+<<<<<<< HEAD
 /* MDP INTF registers to be mapped*/
 #define MDP_INTF1_TEAR_LINE_COUNT 0xAE6BAB0
 #define MDP_INTF1_LINE_COUNT 0xAE6B8B0
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /**
  * dsi_ctrl_hw_22_phy_reset_config() - to configure clamp control during ulps
  * @ctrl:          Pointer to the controller host hardware.
@@ -130,6 +137,7 @@ void dsi_ctrl_hw_22_config_clk_gating(struct dsi_ctrl_hw *ctrl, bool enable,
 
 	DSI_DISP_CC_W32(ctrl, DISP_CC_MISC_CMD_REG_OFF, reg);
 }
+<<<<<<< HEAD
 
 /**
  * dsi_ctrl_hw_22_map_mdp_regs() - maps MDP interface line count registers.
@@ -188,3 +196,5 @@ u32 dsi_ctrl_hw_22_log_line_count(struct dsi_ctrl_hw *ctrl, bool cmd_mode)
 
 	return reg;
 }
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R

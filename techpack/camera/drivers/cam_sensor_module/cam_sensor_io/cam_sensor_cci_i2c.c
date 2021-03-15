@@ -5,7 +5,11 @@
 
 #include "cam_sensor_cmn_header.h"
 #include "cam_sensor_i2c.h"
+<<<<<<< HEAD
 #include "../cam_cci/cam_cci_dev.h"
+=======
+#include "cam_cci_dev.h"
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 int32_t cam_cci_i2c_read(struct cam_sensor_cci_client *cci_client,
 	uint32_t addr, uint32_t *data,

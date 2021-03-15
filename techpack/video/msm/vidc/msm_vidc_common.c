@@ -693,6 +693,7 @@ enum multi_stream msm_comm_get_stream_output_mode(struct msm_vidc_inst *inst)
 		return HAL_VIDEO_DECODER_PRIMARY;
 }
 
+<<<<<<< HEAD
 bool vidc_scalar_enabled(struct msm_vidc_inst *inst)
 {
 	struct v4l2_format *f;
@@ -712,6 +713,8 @@ bool vidc_scalar_enabled(struct msm_vidc_inst *inst)
 	return scalar_enable;
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 bool is_single_session(struct msm_vidc_inst *inst, u32 ignore_flags)
 {
 	bool single = true;

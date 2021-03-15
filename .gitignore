@@ -138,3 +138,9 @@ kernel/configs/android-*.cfg
 
 # vendor device tree directories
 arch/arm64/boot/dts/vendor/
+<<<<<<< HEAD
+=======
+
+# Tech package directories
+#techpack/
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R

@@ -79,10 +79,13 @@
 
 #define BUS_VOTE_19_MHZ 153600000
 
+<<<<<<< HEAD
 #define ROT_HAS_UBWC(caps) (test_bit(SDE_CAPS_UBWC_2, caps) ||\
 		test_bit(SDE_CAPS_UBWC_3, caps) ||\
 		test_bit(SDE_CAPS_UBWC_4, caps))
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /* forward prototype */
 static int sde_rotator_update_perf(struct sde_rot_mgr *mgr);
 
@@ -2037,6 +2040,7 @@ static int sde_rotator_validate_img_roi(struct sde_rotation_item *item)
 static int sde_rotator_validate_fmt_and_item_flags(
 	struct sde_rotation_config *config, struct sde_rotation_item *item)
 {
+<<<<<<< HEAD
 	struct sde_mdp_format_params *in_fmt, *out_fmt;
 	struct sde_rot_data_type *mdata = sde_rot_get_mdata();
 	bool has_ubwc;
@@ -2056,6 +2060,16 @@ static int sde_rotator_validate_fmt_and_item_flags(
 		return -EINVAL;
 	}
 
+=======
+	struct sde_mdp_format_params *fmt;
+
+	fmt = sde_get_format_params(item->input.format);
+	if ((item->flags & SDE_ROTATION_DEINTERLACE) &&
+			sde_mdp_is_ubwc_format(fmt)) {
+		SDEROT_DBG("cannot perform deinterlace on tiled formats\n");
+		return -EINVAL;
+	}
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return 0;
 }
 

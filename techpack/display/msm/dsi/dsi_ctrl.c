@@ -263,6 +263,7 @@ static int dsi_ctrl_debugfs_deinit(struct dsi_ctrl *dsi_ctrl)
 static int dsi_ctrl_debugfs_init(struct dsi_ctrl *dsi_ctrl,
 				 struct dentry *parent)
 {
+<<<<<<< HEAD
 	char dbg_name[DSI_DEBUG_NAME_LEN];
 
 	snprintf(dbg_name, DSI_DEBUG_NAME_LEN, "dsi%d_ctrl",
@@ -270,6 +271,8 @@ static int dsi_ctrl_debugfs_init(struct dsi_ctrl *dsi_ctrl,
 	sde_dbg_reg_register_base(dbg_name,
 			dsi_ctrl->hw.base,
 			msm_iomap_size(dsi_ctrl->pdev, "dsi_ctrl"));
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return 0;
 }
 static int dsi_ctrl_debugfs_deinit(struct dsi_ctrl *dsi_ctrl)
@@ -951,7 +954,10 @@ static int dsi_ctrl_update_link_freqs(struct dsi_ctrl *dsi_ctrl,
 		bit_rate = h_period * v_period * timing->refresh_rate * bpp;
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	pclk_rate = bit_rate;
 	do_div(pclk_rate, bpp);
 	if (host_cfg->phy_type == DSI_PHY_TYPE_DPHY) {
@@ -1226,6 +1232,7 @@ int dsi_message_validate_tx_mode(struct dsi_ctrl *dsi_ctrl,
 
 	return rc;
 }
+<<<<<<< HEAD
 static u32 calculate_schedule_line(struct dsi_ctrl *dsi_ctrl, u32 flags)
 {
 	u32 line_no = 0x1;
@@ -1244,6 +1251,8 @@ static u32 calculate_schedule_line(struct dsi_ctrl *dsi_ctrl, u32 flags)
 
 	return line_no;
 }
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 static void dsi_kickoff_msg_tx(struct dsi_ctrl *dsi_ctrl,
 				const struct mipi_dsi_msg *msg,
@@ -1253,13 +1262,29 @@ static void dsi_kickoff_msg_tx(struct dsi_ctrl *dsi_ctrl,
 {
 	u32 hw_flags = 0;
 	u32 line_no = 0x1;
+<<<<<<< HEAD
+=======
+	struct dsi_mode_info *timing;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	struct dsi_ctrl_hw_ops dsi_hw_ops = dsi_ctrl->hw.ops;
 
 	SDE_EVT32(dsi_ctrl->cell_index, SDE_EVTLOG_FUNC_ENTRY, flags,
 		msg->flags);
+<<<<<<< HEAD
 
 	line_no = calculate_schedule_line(dsi_ctrl, flags);
 
+=======
+	/* check if custom dma scheduling line needed */
+	if ((dsi_ctrl->host_config.panel_mode == DSI_OP_VIDEO_MODE) &&
+		(flags & DSI_CTRL_CMD_CUSTOM_DMA_SCHED))
+		line_no = dsi_ctrl->host_config.u.video_engine.dma_sched_line;
+
+	timing = &(dsi_ctrl->host_config.video_timing);
+	if (timing)
+		line_no += timing->v_back_porch + timing->v_sync_width +
+				timing->v_active;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	if ((dsi_ctrl->host_config.panel_mode == DSI_OP_VIDEO_MODE) &&
 		dsi_hw_ops.schedule_dma_cmd &&
 		(dsi_ctrl->current_state.vid_engine_state ==
@@ -1267,8 +1292,11 @@ static void dsi_kickoff_msg_tx(struct dsi_ctrl *dsi_ctrl,
 		dsi_hw_ops.schedule_dma_cmd(&dsi_ctrl->hw,
 				line_no);
 
+<<<<<<< HEAD
 	dsi_ctrl->cmd_mode = (dsi_ctrl->host_config.panel_mode ==
 				DSI_OP_CMD_MODE);
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	hw_flags |= (flags & DSI_CTRL_CMD_DEFER_TRIGGER) ?
 			DSI_CTRL_HW_CMD_WAIT_FOR_TRIGGER : 0;
 
@@ -1987,9 +2015,12 @@ static int dsi_ctrl_dev_probe(struct platform_device *pdev)
 		DSI_CTRL_DEBUG(dsi_ctrl, "failed to init axi bus client, rc = %d\n",
 				rc);
 
+<<<<<<< HEAD
 	if (dsi_ctrl->hw.ops.map_mdp_regs)
 		dsi_ctrl->hw.ops.map_mdp_regs(pdev, &dsi_ctrl->hw);
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	item->ctrl = dsi_ctrl;
 
 	mutex_lock(&dsi_ctrl_list_lock);
@@ -2070,6 +2101,10 @@ static struct platform_driver dsi_ctrl_driver = {
 	},
 };
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_DEBUG_FS)
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 void dsi_ctrl_debug_dump(u32 *entries, u32 size)
 {
@@ -2091,6 +2126,10 @@ void dsi_ctrl_debug_dump(u32 *entries, u32 size)
 	mutex_unlock(&dsi_ctrl_list_lock);
 }
 
+<<<<<<< HEAD
+=======
+#endif
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /**
  * dsi_ctrl_get() - get a dsi_ctrl handle from an of_node
  * @of_node:    of_node of the DSI controller.
@@ -3319,10 +3358,13 @@ int dsi_ctrl_cmd_tx_trigger(struct dsi_ctrl *dsi_ctrl, u32 flags)
 {
 	int rc = 0;
 	struct dsi_ctrl_hw_ops dsi_hw_ops;
+<<<<<<< HEAD
 	u32 v_total = 0, fps = 0, cur_line = 0, mem_latency_us = 100;
 	u32 line_time = 0, schedule_line = 0x1, latency_by_line = 0;
 	struct dsi_mode_info *timing;
 	unsigned long flag;
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	if (!dsi_ctrl) {
 		DSI_CTRL_ERR(dsi_ctrl, "Invalid params\n");
@@ -3338,6 +3380,7 @@ int dsi_ctrl_cmd_tx_trigger(struct dsi_ctrl *dsi_ctrl, u32 flags)
 
 	mutex_lock(&dsi_ctrl->ctrl_lock);
 
+<<<<<<< HEAD
 	timing = &(dsi_ctrl->host_config.video_timing);
 
 	if (timing &&
@@ -3350,6 +3393,8 @@ int dsi_ctrl_cmd_tx_trigger(struct dsi_ctrl *dsi_ctrl, u32 flags)
 		latency_by_line = CEIL(mem_latency_us, line_time);
 	}
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	if (!(flags & DSI_CTRL_CMD_BROADCAST_MASTER))
 		dsi_hw_ops.trigger_command_dma(&dsi_ctrl->hw);
 
@@ -3362,6 +3407,7 @@ int dsi_ctrl_cmd_tx_trigger(struct dsi_ctrl *dsi_ctrl, u32 flags)
 		reinit_completion(&dsi_ctrl->irq_info.cmd_dma_done);
 
 		/* trigger command */
+<<<<<<< HEAD
 		if ((dsi_ctrl->host_config.panel_mode == DSI_OP_VIDEO_MODE) &&
 			dsi_hw_ops.schedule_dma_cmd &&
 			(dsi_ctrl->current_state.vid_engine_state ==
@@ -3392,6 +3438,9 @@ int dsi_ctrl_cmd_tx_trigger(struct dsi_ctrl *dsi_ctrl, u32 flags)
 		} else
 			dsi_hw_ops.trigger_command_dma(&dsi_ctrl->hw);
 
+=======
+		dsi_hw_ops.trigger_command_dma(&dsi_ctrl->hw);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		if (flags & DSI_CTRL_CMD_ASYNC_WAIT) {
 			dsi_ctrl->dma_wait_queued = true;
 			queue_work(dsi_ctrl->dma_cmd_workq,

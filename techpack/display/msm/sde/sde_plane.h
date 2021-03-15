@@ -308,4 +308,13 @@ void sde_plane_setup_src_split_order(struct drm_plane *plane,
  */
 bool sde_plane_is_cache_required(struct drm_plane *plane);
 
+<<<<<<< HEAD
+=======
+/*
+ * sde_plane_get_mi_layer_info - get mi layer info
+ * @plane: Pointer to DRM plane object
+ */
+uint32_t sde_plane_get_mi_layer_info(const struct drm_plane_state *drm_state);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #endif /* _SDE_PLANE_H_ */

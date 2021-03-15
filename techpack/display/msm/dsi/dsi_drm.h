@@ -23,6 +23,10 @@ struct dsi_bridge {
 
 	struct dsi_display *display;
 	struct dsi_display_mode dsi_mode;
+<<<<<<< HEAD
+=======
+	struct mutex lock;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 };
 
 /**

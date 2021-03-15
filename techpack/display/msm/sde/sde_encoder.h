@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * Copyright (C) 2013 Red Hat
  * Author: Rob Clark <robdclark@gmail.com>
  *
@@ -313,6 +317,7 @@ void sde_encoder_recovery_events_handler(struct drm_encoder *encoder,
  */
 bool sde_encoder_in_clone_mode(struct drm_encoder *enc);
 
+<<<<<<< HEAD
 /*
  * sde_encoder_is_cwb_disabling - check if cwb encoder disable is pending
  * @drm_enc:    Pointer to drm encoder structure
@@ -322,6 +327,8 @@ bool sde_encoder_in_clone_mode(struct drm_encoder *enc);
 bool sde_encoder_is_cwb_disabling(struct drm_encoder *drm_enc,
 	struct drm_crtc *drm_crtc);
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /**
  * sde_encoder_is_primary_display - checks if underlying display is primary
  *     display or not.
@@ -365,6 +372,7 @@ void sde_encoder_needs_hw_reset(struct drm_encoder *enc);
  */
 void sde_encoder_uidle_enable(struct drm_encoder *drm_enc, bool enable);
 
+<<<<<<< HEAD
 /**
  * sde_encoder_virt_reset - delay encoder virt reset
  * @drm_enc:	Pointer to drm encoder structure
@@ -392,4 +400,6 @@ static inline struct sde_kms *sde_encoder_get_kms(struct drm_encoder *drm_enc)
 	return to_sde_kms(priv->kms);
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #endif /* __SDE_ENCODER_H__ */

@@ -273,7 +273,10 @@
 #define HFI_VENUS_HEIGHT_ALIGNMENT 32
 
 #define SYSTEM_LAL_TILE10 192
+<<<<<<< HEAD
 #define NUM_MBS_480P (((640 + 15) >> 4) * ((480 + 15) >> 4))
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #define NUM_MBS_720P (((1280 + 15) >> 4) * ((720 + 15) >> 4))
 #define NUM_MBS_4k (((4096 + 15) >> 4) * ((2304 + 15) >> 4))
 #define MB_SIZE_IN_PIXEL (16 * 16)
@@ -325,8 +328,12 @@ static inline u32 calculate_vp8e_scratch1_size(struct msm_vidc_inst *inst,
 	u32 width, u32 height, u32 num_ref, bool ten_bit, u32 num_vpp_pipes);
 
 static inline u32 calculate_enc_scratch2_size(struct msm_vidc_inst *inst,
+<<<<<<< HEAD
 	u32 width, u32 height, u32 num_ref, bool ten_bit, bool downscale,
 	u32 rotation_val, u32 flip);
+=======
+	u32 width, u32 height, u32 num_ref, bool ten_bit);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 static inline u32 calculate_enc_persist_size(void);
 
@@ -477,10 +484,13 @@ int msm_vidc_get_num_ref_frames(struct msm_vidc_inst *inst)
 	struct v4l2_ctrl *layer_ctrl;
 	u32 codec;
 
+<<<<<<< HEAD
 	codec = get_v4l2_codec(inst);
 	if (codec == V4L2_PIX_FMT_VP8)
 		num_ref = num_ref << 1;
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	bframe_ctrl = get_ctrl(inst, V4L2_CID_MPEG_VIDEO_B_FRAMES);
 	num_bframes = bframe_ctrl->val;
 	if (num_bframes > 0)
@@ -495,6 +505,7 @@ int msm_vidc_get_num_ref_frames(struct msm_vidc_inst *inst)
 	layer_ctrl = get_ctrl(inst,
 		V4L2_CID_MPEG_VIDC_VIDEO_HEVC_MAX_HIER_CODING_LAYER);
 	num_hp_layers = layer_ctrl->val;
+<<<<<<< HEAD
 	if (num_hp_layers > 1) {
 		/* LTR and B - frame not supported with hybrid HP */
 		if (inst->hybrid_hp)
@@ -505,6 +516,19 @@ int msm_vidc_get_num_ref_frames(struct msm_vidc_inst *inst)
 			num_ref = (num_hp_layers - 1) + ltr_count;
 		else
 			num_ref = num_hp_layers + ltr_count;
+=======
+	codec = get_v4l2_codec(inst);
+	if (num_hp_layers > 0) {
+		/* LTR and B - frame not supported with hybrid HP */
+		if (inst->hybrid_hp)
+			num_ref = (num_hp_layers - 1);
+		else if (codec == V4L2_PIX_FMT_HEVC)
+			num_ref = ((num_hp_layers + 1) / 2) + ltr_count;
+		else if ((codec == V4L2_PIX_FMT_H264) && (num_hp_layers <= 4))
+			num_ref = ((1 << (num_hp_layers - 1)) - 1) + ltr_count;
+		else
+			num_ref = ((num_hp_layers + 1) / 2) + ltr_count;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 	return num_ref;
 }
@@ -513,10 +537,16 @@ int msm_vidc_get_encoder_internal_buffer_sizes(struct msm_vidc_inst *inst)
 {
 	struct msm_vidc_enc_buff_size_calculators *enc_calculators;
 	u32 width, height, i, num_ref, num_vpp_pipes;
+<<<<<<< HEAD
 	u32 rotation_val = 0, flip = 0;
 	bool is_tenbit = false, is_downscale = false;
 	int num_bframes;
 	struct v4l2_ctrl *bframe, *rotation, *hflip, *vflip;
+=======
+	bool is_tenbit = false;
+	int num_bframes;
+	struct v4l2_ctrl *bframe;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	struct v4l2_format *f;
 
 	if (!inst || !inst->core || !inst->core->platform_data) {
@@ -543,12 +573,19 @@ int msm_vidc_get_encoder_internal_buffer_sizes(struct msm_vidc_inst *inst)
 		return -EINVAL;
 	}
 
+<<<<<<< HEAD
+=======
+	f = &inst->fmts[OUTPUT_PORT].v4l2_fmt;
+	width = f->fmt.pix_mp.width;
+	height = f->fmt.pix_mp.height;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	bframe = get_ctrl(inst, V4L2_CID_MPEG_VIDEO_B_FRAMES);
 	num_bframes = bframe->val;
 	if (num_bframes < 0) {
 		s_vpr_e(inst->sid, "%s: get num bframe failed\n", __func__);
 		return -EINVAL;
 	}
+<<<<<<< HEAD
 	f = &inst->fmts[OUTPUT_PORT].v4l2_fmt;
 	rotation = get_ctrl(inst, V4L2_CID_ROTATE);
 	rotation_val = rotation->val;
@@ -567,6 +604,11 @@ int msm_vidc_get_encoder_internal_buffer_sizes(struct msm_vidc_inst *inst)
 	num_ref = msm_vidc_get_num_ref_frames(inst);
 	is_tenbit = (inst->bit_depth == MSM_VIDC_BIT_DEPTH_10);
 	is_downscale = vidc_scalar_enabled(inst);
+=======
+
+	num_ref = msm_vidc_get_num_ref_frames(inst);
+	is_tenbit = (inst->bit_depth == MSM_VIDC_BIT_DEPTH_10);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	for (i = 0; i < HAL_BUFFER_MAX; i++) {
 		struct hal_buffer_requirements *curr_req;
@@ -592,8 +634,12 @@ int msm_vidc_get_encoder_internal_buffer_sizes(struct msm_vidc_inst *inst)
 			curr_req->buffer_size =
 				enc_calculators->calculate_scratch2_size(
 					inst, width, height, num_ref,
+<<<<<<< HEAD
 					is_tenbit, is_downscale, rotation_val,
 					flip);
+=======
+					is_tenbit);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 			valid_buffer_type = true;
 		} else if (curr_req->buffer_type ==
 			HAL_BUFFER_INTERNAL_PERSIST) {
@@ -680,7 +726,19 @@ int msm_vidc_calculate_input_buffer_count(struct msm_vidc_inst *inst)
 	fmt->count_min_host = fmt->count_actual =
 		fmt->count_min + extra_buff_count;
 
+<<<<<<< HEAD
 	s_vpr_h(inst->sid, "%s: input min %d min_host %d actual %d\n",
+=======
+	if (is_grid_session(inst)) {
+                fmt->count_min = fmt->count_min_host =
+			MIN_INPUT_BUFFERS;
+                s_vpr_h(inst->sid,
+			"%s: update HEIC input buffer count to 4\n",
+			__func__);
+        }
+
+        s_vpr_h(inst->sid, "%s: input min %d min_host %d actual %d\n",
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		__func__, fmt->count_min,
 		fmt->count_min_host, fmt->count_actual);
 
@@ -954,11 +1012,17 @@ u32 msm_vidc_calculate_dec_input_frame_size(struct msm_vidc_inst *inst)
 	/* For targets that doesn't support 4k, consider max mb's for that
 	 * target and allocate max input buffer size for the same
 	 */
+<<<<<<< HEAD
 	if (inst->core->platform_data->vpu_ver == VPU_VERSION_AR50_LITE) {
 		base_res_mbs = inst->capability.cap[CAP_MBS_PER_FRAME].max;
 		div_factor = 1;
 		if (num_mbs < NUM_MBS_720P)
 			base_res_mbs = base_res_mbs * 2;
+=======
+	if (base_res_mbs > inst->capability.cap[CAP_MBS_PER_FRAME].max) {
+		base_res_mbs = inst->capability.cap[CAP_MBS_PER_FRAME].max;
+		div_factor = 1;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 
 	frame_size = base_res_mbs * MB_SIZE_IN_PIXEL * 3 / 2 / div_factor;
@@ -1023,9 +1087,14 @@ u32 msm_vidc_calculate_enc_output_frame_size(struct msm_vidc_inst *inst)
 	f = &inst->fmts[OUTPUT_PORT].v4l2_fmt;
 	/*
 	 * Encoder output size calculation: 32 Align width/height
+<<<<<<< HEAD
 	 * For CQ or heic session : YUVsize * 2
 	 * For resolution <= 480p : YUVsize * 2
 	 * For resolution > 480p & <= 4K : YUVsize / 2
+=======
+	 * For resolution < 720p : YUVsize * 4
+	 * For resolution > 720p & <= 4K : YUVsize / 2
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	 * For resolution > 4k : YUVsize / 4
 	 * Initially frame_size = YUVsize * 2;
 	 */
@@ -1038,29 +1107,45 @@ u32 msm_vidc_calculate_enc_output_frame_size(struct msm_vidc_inst *inst)
 	mbs_per_frame = NUM_MBS_PER_FRAME(width, height);
 	frame_size = (width * height * 3);
 
+<<<<<<< HEAD
 	if (inst->rc_type == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ ||
 		is_grid_session(inst) || is_image_session(inst))
 		goto calc_done;
 
 	if (mbs_per_frame <= NUM_MBS_480P)
 		goto calc_done; /* Default frame_size = YUVsize * 2 */
+=======
+	if (mbs_per_frame < NUM_MBS_720P)
+		frame_size = frame_size << 1;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	else if (mbs_per_frame <= NUM_MBS_4k)
 		frame_size = frame_size >> 2;
 	else
 		frame_size = frame_size >> 3;
 
+<<<<<<< HEAD
 	if (inst->rc_type == RATE_CONTROL_OFF)
+=======
+	if ((inst->rc_type == RATE_CONTROL_OFF) ||
+		(inst->rc_type == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ))
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		frame_size = frame_size << 1;
 
 	if (inst->rc_type == RATE_CONTROL_LOSSLESS)
 		frame_size = (width * height * 9) >> 2;
 
 	/* multiply by 10/8 (1.25) to get size for 10 bit case */
+<<<<<<< HEAD
 	if (inst->core->platform_data->vpu_ver != VPU_VERSION_AR50_LITE &&
 		f->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_HEVC)
 		frame_size = frame_size + (frame_size >> 2);
 
 calc_done:
+=======
+	if (f->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_HEVC)
+		frame_size = frame_size + (frame_size >> 2);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return ALIGN(frame_size, SZ_4K);
 }
 
@@ -1450,9 +1535,13 @@ static inline u32 calculate_enc_scratch_size(struct msm_vidc_inst *inst,
 		bitstream_size = aligned_width * aligned_height * 3;
 		bitbin_size = ALIGN(bitstream_size, VENUS_DMA_ALIGNMENT);
 	}
+<<<<<<< HEAD
 	if (aligned_width * aligned_height >= 7680 * 4320)
 		size_singlePipe = bitbin_size / 4;
 	else if (num_vpp_pipes > 2)
+=======
+	if (num_vpp_pipes > 2)
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		size_singlePipe = bitbin_size / 2;
 	else
 		size_singlePipe = bitbin_size;
@@ -1834,8 +1923,13 @@ static inline u32 hfi_ubwc_uv_metadata_plane_bufheight(u32 height,
 		tile_height_pels), metadata_height_multi);
 }
 
+<<<<<<< HEAD
 static inline u32 hfi_iris2_enc_dpb_buffer_size(u32 width, u32 height,
 	bool ten_bit)
+=======
+static inline u32 calculate_enc_scratch2_size(struct msm_vidc_inst *inst,
+	u32 width, u32 height, u32 num_ref, bool ten_bit)
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 {
 	u32 aligned_width, aligned_height, chroma_height, ref_buf_height;
 	u32 luma_size, chroma_size;
@@ -1860,6 +1954,10 @@ static inline u32 hfi_iris2_enc_dpb_buffer_size(u32 width, u32 height,
 			metadata_stride, meta_buf_height);
 		size = (aligned_height + chroma_height) * aligned_width +
 			meta_size_y + meta_size_c;
+<<<<<<< HEAD
+=======
+		size = (size * (num_ref+3)) + 4096;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	} else {
 		ref_buf_height = (height + (HFI_VENUS_HEIGHT_ALIGNMENT - 1))
 			& (~(HFI_VENUS_HEIGHT_ALIGNMENT - 1));
@@ -1892,6 +1990,7 @@ static inline u32 hfi_iris2_enc_dpb_buffer_size(u32 width, u32 height,
 		meta_size_c = hfi_ubwc_metadata_plane_buffer_size(
 			metadata_stride, meta_buf_height);
 		size = ref_buf_size + meta_size_y + meta_size_c;
+<<<<<<< HEAD
 	}
 	return size;
 }
@@ -1915,6 +2014,9 @@ static inline u32 calculate_enc_scratch2_size(struct msm_vidc_inst *inst,
 			size += hfi_iris2_enc_dpb_buffer_size(width, height,
 					ten_bit);
 		size += 4096;
+=======
+		size = (size * (num_ref+3)) + 4096;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 	return size;
 }

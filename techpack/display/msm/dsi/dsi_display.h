@@ -199,6 +199,10 @@ struct dsi_display {
 	const char *display_type;
 	struct list_head list;
 	bool is_cont_splash_enabled;
+<<<<<<< HEAD
+=======
+	bool is_prim_display;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	bool sw_te_using_wd;
 	struct mutex display_lock;
 	int disp_te_gpio;
@@ -395,6 +399,7 @@ void dsi_display_put_mode(struct dsi_display *display,
 int dsi_display_get_default_lms(void *dsi_display, u32 *num_lm);
 
 /**
+<<<<<<< HEAD
  * dsi_display_get_qsync_min_fps() - get qsync min fps for given fps
  * @display:            Handle to display.
  * @mode_fps:           Fps value of current mode
@@ -405,6 +410,8 @@ int dsi_display_get_qsync_min_fps(void *dsi_display, u32 mode_fps);
 
 
 /**
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * dsi_display_find_mode() - retrieve cached DSI mode given relevant params
  * @display:            Handle to display.
  * @cmp:                Mode to use as comparison to find original
@@ -707,6 +714,13 @@ int dsi_display_pre_kickoff(struct drm_connector *connector,
 int dsi_display_pre_commit(void *display,
 		struct msm_display_conn_params *params);
 
+<<<<<<< HEAD
+=======
+ssize_t wp_info_show(struct device *device,
+	    struct device_attribute *attr,
+		char *buf);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /**
  * dsi_display_get_dst_format() - get dst_format from DSI display
  * @connector:        Pointer to drm connector structure
@@ -735,4 +749,13 @@ int dsi_display_cont_splash_config(void *display);
 int dsi_display_get_panel_vfp(void *display,
 	int h_active, int v_active);
 
+<<<<<<< HEAD
+=======
+int dsi_display_cmd_engine_enable(struct dsi_display *display);
+int dsi_display_cmd_engine_disable(struct dsi_display *display);
+int dsi_host_alloc_cmd_tx_buffer(struct dsi_display *display);
+
+int dsi_display_hbm_set_disp_param(struct drm_connector *connector,
+				u32 param_type);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #endif /* _DSI_DISPLAY_H_ */

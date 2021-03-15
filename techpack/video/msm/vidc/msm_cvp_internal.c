@@ -377,7 +377,10 @@ static int msm_cvp_register_buffer(struct msm_vidc_inst *inst,
 		goto exit;
 	}
 
+<<<<<<< HEAD
 	mutex_lock(&inst->cvpbufs.lock);
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	memset(&vbuf, 0, sizeof(struct vidc_register_buffer));
 	vbuf.index = buf->index;
 	vbuf.type = get_hal_buftype(__func__, buf->type, inst->sid);
@@ -389,9 +392,15 @@ static int msm_cvp_register_buffer(struct msm_vidc_inst *inst,
 			(void *)inst->session, &vbuf);
 	if (rc) {
 		print_cvp_buffer(VIDC_ERR, "register failed", inst, cbuf);
+<<<<<<< HEAD
 		mutex_unlock(&inst->cvpbufs.lock);
 		goto exit;
 	}
+=======
+		goto exit;
+	}
+	mutex_lock(&inst->cvpbufs.lock);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	list_add_tail(&cbuf->list, &inst->cvpbufs.list);
 	mutex_unlock(&inst->cvpbufs.lock);
 	return rc;

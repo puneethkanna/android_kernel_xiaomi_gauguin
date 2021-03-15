@@ -2562,6 +2562,7 @@ static int _sde_plane_validate_shared_crtc(struct sde_plane *psde,
 
 }
 
+<<<<<<< HEAD
 static int _sde_plane_validate_fb(struct sde_plane *psde,
 				struct drm_plane_state *state)
 {
@@ -2595,6 +2596,8 @@ static int _sde_plane_validate_fb(struct sde_plane *psde,
 	return 0;
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 static int sde_plane_sspp_atomic_check(struct drm_plane *plane,
 		struct drm_plane_state *state)
 {
@@ -2708,11 +2711,14 @@ static int sde_plane_sspp_atomic_check(struct drm_plane *plane,
 	if (ret)
 		return ret;
 
+<<<<<<< HEAD
 	ret = _sde_plane_validate_fb(psde, state);
 
 	if (ret)
 		return ret;
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	pstate->const_alpha_en = fmt->alpha_enable &&
 		(SDE_DRM_BLEND_OP_OPAQUE !=
 		 sde_plane_get_property(pstate, PLANE_PROP_BLEND_OP)) &&
@@ -3395,6 +3401,21 @@ void sde_plane_restore(struct drm_plane *plane)
 	sde_plane_atomic_update(plane, plane->state);
 }
 
+<<<<<<< HEAD
+=======
+uint32_t sde_plane_get_mi_layer_info(const struct drm_plane_state *drm_state)
+{
+	struct sde_plane_state *pstate;
+
+	if (!drm_state)
+		return 0;
+
+	pstate = to_sde_plane_state(drm_state);
+
+	return sde_plane_get_property(pstate, PLANE_PROP_MI_LAYER_INFO);
+}
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 bool sde_plane_is_cache_required(struct drm_plane *plane)
 {
 	struct sde_plane_state *pstate;
@@ -3551,6 +3572,12 @@ static void _sde_plane_install_properties(struct drm_plane *plane,
 		zpos_def = drm_plane_index(plane) + 1;
 	}
 
+<<<<<<< HEAD
+=======
+	msm_property_install_range(&psde->property_info, "mi_layer_info",
+		0x0, 0, U32_MAX, 0, PLANE_PROP_MI_LAYER_INFO);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	msm_property_install_range(&psde->property_info, "zpos",
 		0x0, 0, zpos_max, zpos_def, PLANE_PROP_ZPOS);
 
@@ -4167,7 +4194,10 @@ static void sde_plane_destroy_state(struct drm_plane *plane,
 	/* remove ref count for fence */
 	if (pstate->input_fence)
 		sde_sync_put(pstate->input_fence);
+<<<<<<< HEAD
 	pstate->input_fence = 0;
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* destroy value helper */
 	msm_property_destroy_state(&psde->property_info, pstate,
@@ -4601,8 +4631,12 @@ struct drm_plane *sde_plane_init(struct drm_device *dev,
 		SDE_ERROR("[%u]SSPP init failed\n", pipe);
 		ret = PTR_ERR(psde->pipe_hw);
 		goto clean_plane;
+<<<<<<< HEAD
 	} else if (!psde->pipe_hw || !psde->pipe_hw->cap ||
 					 !psde->pipe_hw->cap->sblk) {
+=======
+	} else if (!psde->pipe_hw->cap || !psde->pipe_hw->cap->sblk) {
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		SDE_ERROR("[%u]SSPP init returned invalid cfg\n", pipe);
 		goto clean_sspp;
 	}

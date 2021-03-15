@@ -26,8 +26,12 @@ struct msm_vidc_enc_buff_size_calculators {
 		u32 width, u32 height, u32 num_ref, bool ten_bit,
 		u32 num_vpp_pipes);
 	u32 (*calculate_scratch2_size)(struct msm_vidc_inst *inst,
+<<<<<<< HEAD
 		u32 width, u32 height, u32 num_ref, bool ten_bit,
 		bool downscale, u32 rotation_val, u32 flip);
+=======
+		u32 width, u32 height, u32 num_ref, bool ten_bit);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	u32 (*calculate_persist_size)(void);
 };
 

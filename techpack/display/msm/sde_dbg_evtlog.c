@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+<<<<<<< HEAD
  * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  */
 
 #define pr_fmt(fmt)	"sde_dbg:[%s] " fmt, __func__
@@ -101,6 +105,7 @@ exit:
 	spin_unlock_irqrestore(&evtlog->spin_lock, flags);
 }
 
+<<<<<<< HEAD
 void sde_reglog_log(u8 blk_id, u32 val, u32 addr)
 {
 	unsigned long flags;
@@ -126,6 +131,8 @@ void sde_reglog_log(u8 blk_id, u32 val, u32 addr)
 	spin_unlock_irqrestore(&reglog->spin_lock, flags);
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /* always dump the last entries which are not dumped yet */
 static bool _sde_evtlog_dump_calc_range(struct sde_dbg_evtlog *evtlog,
 		bool update_last_entry, bool full_dump)
@@ -236,6 +243,7 @@ struct sde_dbg_evtlog *sde_evtlog_init(void)
 	return evtlog;
 }
 
+<<<<<<< HEAD
 struct sde_dbg_reglog *sde_reglog_init(void)
 {
 	struct sde_dbg_reglog *reglog;
@@ -249,6 +257,8 @@ struct sde_dbg_reglog *sde_reglog_init(void)
 	return reglog;
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 int sde_evtlog_get_filter(struct sde_dbg_evtlog *evtlog, int index,
 		char *buf, size_t bufsz)
 {
@@ -350,6 +360,7 @@ void sde_evtlog_destroy(struct sde_dbg_evtlog *evtlog)
 	}
 	kfree(evtlog);
 }
+<<<<<<< HEAD
 
 void sde_reglog_destroy(struct sde_dbg_reglog *reglog)
 {
@@ -358,3 +369,5 @@ void sde_reglog_destroy(struct sde_dbg_reglog *reglog)
 
 	kfree(reglog);
 }
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R

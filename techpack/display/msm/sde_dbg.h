@@ -35,7 +35,10 @@ enum sde_dbg_evtlog_flag {
 	SDE_EVTLOG_IRQ = BIT(1),
 	SDE_EVTLOG_VERBOSE = BIT(2),
 	SDE_EVTLOG_EXTERNAL = BIT(3),
+<<<<<<< HEAD
 	SDE_EVTLOG_REGWRITE = BIT(4),
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	SDE_EVTLOG_ALWAYS = -1
 };
 
@@ -50,6 +53,7 @@ enum sde_dbg_dump_context {
 	SDE_DBG_DUMP_CLK_ENABLED_CTX,
 };
 
+<<<<<<< HEAD
 /*
  * Define blocks for register write logging.
  */
@@ -78,6 +82,8 @@ enum sde_dbg_dump_context {
  */
 #define SDE_REG_LOG_RSCC    33
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #define SDE_EVTLOG_DEFAULT_ENABLE (SDE_EVTLOG_CRITICAL | SDE_EVTLOG_IRQ | \
 		SDE_EVTLOG_EXTERNAL)
 
@@ -132,6 +138,7 @@ struct sde_dbg_evtlog {
 
 extern struct sde_dbg_evtlog *sde_dbg_base_evtlog;
 
+<<<<<<< HEAD
 /*
  * reglog keeps this number of entries in memory for debug purpose. This
  * number must be greater than number of possible writes in at least one
@@ -170,6 +177,8 @@ extern struct sde_dbg_reglog *sde_dbg_base_reglog;
  */
 #define SDE_REG_LOG(blk_id, val, addr) sde_reglog_log(blk_id, val, addr)
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 /**
  * SDE_EVT32 - Write a list of 32bit values to the event log, default area
  * ... - variable arguments
@@ -201,6 +210,7 @@ extern struct sde_dbg_reglog *sde_dbg_base_reglog;
 #define SDE_EVT32_EXTERNAL(...) sde_evtlog_log(sde_dbg_base_evtlog, __func__, \
 		__LINE__, SDE_EVTLOG_EXTERNAL, ##__VA_ARGS__, \
 		SDE_EVTLOG_DATA_LIMITER)
+<<<<<<< HEAD
 /**
  * SDE_EVT32_REGWRITE - Write a list of 32bit values for register writes logging
  * ... - variable arguments
@@ -208,6 +218,8 @@ extern struct sde_dbg_reglog *sde_dbg_base_reglog;
 #define SDE_EVT32_REGWRITE(...) sde_evtlog_log(sde_dbg_base_evtlog, __func__, \
 		__LINE__, SDE_EVTLOG_REGWRITE, ##__VA_ARGS__, \
 		SDE_EVTLOG_DATA_LIMITER)
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 /**
  * SDE_DBG_DUMP - trigger dumping of all sde_dbg facilities
@@ -249,6 +261,10 @@ extern struct sde_dbg_reglog *sde_dbg_base_reglog;
 #define SDE_DBG_CTRL(...) sde_dbg_ctrl(__func__, ##__VA_ARGS__, \
 		SDE_DBG_DUMP_DATA_LIMITER)
 
+<<<<<<< HEAD
+=======
+#if defined(CONFIG_DEBUG_FS)
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 /**
  * sde_evtlog_init - allocate a new event log object
@@ -257,12 +273,15 @@ extern struct sde_dbg_reglog *sde_dbg_base_reglog;
 struct sde_dbg_evtlog *sde_evtlog_init(void);
 
 /**
+<<<<<<< HEAD
  * sde_reglog_init - allocate a new reg log object
  * Returns:	reglog or -ERROR
  */
 struct sde_dbg_reglog *sde_reglog_init(void);
 
 /**
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * sde_evtlog_destroy - destroy previously allocated event log
  * @evtlog:	pointer to evtlog
  * Returns:	none
@@ -270,6 +289,7 @@ struct sde_dbg_reglog *sde_reglog_init(void);
 void sde_evtlog_destroy(struct sde_dbg_evtlog *evtlog);
 
 /**
+<<<<<<< HEAD
  * sde_reglog_destroy - destroy previously allocated reg log
  * @reglog:	pointer to reglog
  * Returns:	none
@@ -277,6 +297,8 @@ void sde_evtlog_destroy(struct sde_dbg_evtlog *evtlog);
 void sde_reglog_destroy(struct sde_dbg_reglog *reglog);
 
 /**
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * sde_evtlog_log - log an entry into the event log.
  *	log collection may be enabled/disabled entirely via debugfs
  *	log area collection may be filtered by user provided flags via debugfs.
@@ -290,6 +312,7 @@ void sde_evtlog_log(struct sde_dbg_evtlog *evtlog, const char *name, int line,
 		int flag, ...);
 
 /**
+<<<<<<< HEAD
  * sde_reglog_log - log an entry into the reg log.
  *      log collection may be enabled/disabled entirely via debugfs
  *      log area collection may be filtered by user provided flags via debugfs.
@@ -299,6 +322,8 @@ void sde_evtlog_log(struct sde_dbg_evtlog *evtlog, const char *name, int line,
 void sde_reglog_log(u8 blk_id, u32 val, u32 addr);
 
 /**
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  * sde_evtlog_dump_all - print all entries in event log to kernel log
  * @evtlog:	pointer to evtlog
  * Returns:	none
@@ -466,4 +491,104 @@ void sde_rsc_debug_dump(u32 mux_sel);
  */
 void dsi_ctrl_debug_dump(u32 *entries, u32 size);
 
+<<<<<<< HEAD
+=======
+#else
+static inline struct sde_dbg_evtlog *sde_evtlog_init(void)
+{
+	return NULL;
+}
+
+static inline void sde_evtlog_destroy(struct sde_dbg_evtlog *evtlog)
+{
+}
+
+static inline void sde_evtlog_log(struct sde_dbg_evtlog *evtlog,
+		const char *name, int line, int flag, ...)
+{
+}
+
+static inline void sde_evtlog_dump_all(struct sde_dbg_evtlog *evtlog)
+{
+}
+
+static inline bool sde_evtlog_is_enabled(struct sde_dbg_evtlog *evtlog,
+		u32 flag)
+{
+	return false;
+}
+
+static inline ssize_t sde_evtlog_dump_to_buffer(struct sde_dbg_evtlog *evtlog,
+		char *evtlog_buf, ssize_t evtlog_buf_size,
+		bool update_last_entry)
+{
+	return 0;
+}
+
+static inline void sde_dbg_init_dbg_buses(u32 hwversion)
+{
+}
+
+static inline int sde_dbg_init(struct device *dev)
+{
+	return 0;
+}
+
+static inline int sde_dbg_debugfs_register(struct device *dev)
+{
+	return 0;
+}
+
+static inline void sde_dbg_destroy(void)
+{
+}
+
+static inline void sde_dbg_dump(enum sde_dbg_dump_context mode,
+	const char *name, ...)
+{
+}
+
+static inline void sde_dbg_ctrl(const char *name, ...)
+{
+}
+
+static inline int sde_dbg_reg_register_base(const char *name,
+		void __iomem *base, size_t max_offset)
+{
+	return 0;
+}
+
+static inline void sde_dbg_reg_register_dump_range(const char *base_name,
+		const char *range_name, u32 offset_start, u32 offset_end,
+		uint32_t xin_id)
+{
+}
+
+static inline void sde_dbg_set_sde_top_offset(u32 blk_off)
+{
+}
+
+static inline void sde_evtlog_set_filter(
+		struct sde_dbg_evtlog *evtlog, char *filter)
+{
+}
+
+static inline int sde_evtlog_get_filter(struct sde_dbg_evtlog *evtlog,
+		int index, char *buf, size_t bufsz)
+{
+	return -EINVAL;
+}
+
+static inline void sde_rsc_debug_dump(u32 mux_sel)
+{
+}
+
+static inline void dsi_ctrl_debug_dump(u32 *entries, u32 size)
+{
+}
+
+#endif /* defined(CONFIG_DEBUG_FS) */
+
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #endif /* SDE_DBG_H_ */

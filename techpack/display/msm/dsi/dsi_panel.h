@@ -11,6 +11,10 @@
 #include <linux/bitops.h>
 #include <linux/errno.h>
 #include <linux/backlight.h>
+<<<<<<< HEAD
+=======
+#include <linux/rtc.h>
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #include <drm/drm_panel.h>
 #include <drm/msm_drm.h>
 
@@ -20,6 +24,10 @@
 #include "dsi_pwr.h"
 #include "dsi_parser.h"
 #include "msm_drv.h"
+<<<<<<< HEAD
+=======
+#include "dsi_panel_mi.h"
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 #define MAX_BL_LEVEL 4096
 #define MAX_BL_SCALE_LEVEL 1024
@@ -82,6 +90,7 @@ struct dsi_dfps_capabilities {
 	u32 *dfps_list;
 	u32 dfps_list_len;
 	bool dfps_support;
+<<<<<<< HEAD
 };
 
 struct dsi_qsync_capabilities {
@@ -89,6 +98,16 @@ struct dsi_qsync_capabilities {
 	u32 qsync_min_fps;
 	u32 *qsync_min_fps_list;
 	int qsync_min_fps_list_len;
+=======
+	/* smart fps control */
+	bool smart_fps_support;
+	u32 smart_fps_value;
+	u32 *dec_vfp_list;
+	u32 *dec_hfp_list;
+	u32 dec_vfp_list_len;
+	u32 dec_hfp_list_len;
+	u32 preferred_fps_idx;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 };
 
 struct dsi_dyn_clk_caps {
@@ -169,6 +188,14 @@ struct drm_panel_esd_config {
 	u8 *return_buf;
 	u8 *status_buf;
 	u32 groups;
+<<<<<<< HEAD
+=======
+	int esd_err_irq_gpio;
+	int esd_err_irq;
+	int esd_err_irq_flags;
+	bool status_value_ignore;
+	u32 esd_status_interval;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 };
 
 struct dsi_panel {
@@ -214,13 +241,22 @@ struct dsi_panel {
 
 	bool panel_initialized;
 	bool te_using_watchdog_timer;
+<<<<<<< HEAD
 	struct dsi_qsync_capabilities qsync_caps;
+=======
+	u32 qsync_min_fps;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	char dsc_pps_cmd[DSI_CMD_PPS_SIZE];
 	enum dsi_dms_mode dms_mode;
 
 	bool sync_broadcast_en;
 
+<<<<<<< HEAD
+=======
+	struct dsi_panel_mi_cfg mi_cfg;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	int panel_test_gpio;
 	int power_mode;
 	enum dsi_panel_physical_type panel_type;
@@ -344,4 +380,23 @@ void dsi_panel_ext_bridge_put(struct dsi_panel *panel);
 void dsi_panel_calc_dsi_transfer_time(struct dsi_host_common_cfg *config,
 		struct dsi_display_mode *mode, u32 frame_threshold_us);
 
+<<<<<<< HEAD
+=======
+void dsi_panel_printf_andorid_time(const char *msg);
+
+int dsi_panel_tx_cmd_set(struct dsi_panel *panel,
+				enum dsi_cmd_set_type type);
+int dsi_panel_update_backlight(struct dsi_panel *panel,
+				u32 bl_lvl);
+int dsi_panel_get_cmd_pkt_count(const char *data, u32 length, u32 *cnt);
+int dsi_panel_alloc_cmd_packets(struct dsi_panel_cmd_set *cmd,
+				u32 packet_count);
+int dsi_panel_create_cmd_packets(const char *data,
+				u32 length,
+				u32 count,
+				struct dsi_cmd_desc *cmd);
+void dsi_panel_destroy_cmd_packets(struct dsi_panel_cmd_set *set);
+void dsi_panel_dealloc_cmd_packets(struct dsi_panel_cmd_set *set);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #endif /* _DSI_PANEL_H_ */

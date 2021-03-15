@@ -202,10 +202,15 @@ static struct msm_vidc_codec lagoon_codecs[] = {
 
 static struct msm_vidc_codec_capability lito_capabilities_v0[] = {
 	/* {cap_type, domains, codecs, min, max, step_size, default_value} */
+<<<<<<< HEAD
 	{CAP_FRAME_WIDTH, DEC, CODECS_ALL, 96, 5760, 1, 1920},
 	{CAP_FRAME_HEIGHT, DEC, CODECS_ALL, 96, 5760, 1, 1080},
 	{CAP_FRAME_WIDTH, ENC, CODECS_ALL, 96, 5760, 2, 1920},
 	{CAP_FRAME_HEIGHT, ENC, CODECS_ALL, 96, 5760, 2, 1080},
+=======
+	{CAP_FRAME_WIDTH, DOMAINS_ALL, CODECS_ALL, 96, 5760, 1, 1920},
+	{CAP_FRAME_HEIGHT, DOMAINS_ALL, CODECS_ALL, 96, 5760, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/*  ((5760 * 2880) / 256) */
 	{CAP_MBS_PER_FRAME, DOMAINS_ALL, CODECS_ALL, 36, 64800, 1, 8160},
 	/* ((3840x2176)/256)@60fps */
@@ -236,10 +241,15 @@ static struct msm_vidc_codec_capability lito_capabilities_v0[] = {
 	{CAP_MAX_VIDEOCORES, DOMAINS_ALL, CODECS_ALL, 0, 1, 1, 1},
 
 	/* VP8 specific */
+<<<<<<< HEAD
 	{CAP_FRAME_WIDTH, DEC, VP8, 96, 4096, 1, 1920},
 	{CAP_FRAME_HEIGHT, DEC, VP8, 96, 4096, 1, 1080},
 	{CAP_FRAME_WIDTH, ENC, VP8, 96, 4096, 2, 1920},
 	{CAP_FRAME_HEIGHT, ENC, VP8, 96, 4096, 2, 1080},
+=======
+	{CAP_FRAME_WIDTH, ENC|DEC, VP8, 96, 4096, 1, 1920},
+	{CAP_FRAME_HEIGHT, ENC|DEC, VP8, 96, 4096, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/* (4096 * 2176) / 256 */
 	{CAP_MBS_PER_FRAME, ENC|DEC, VP8, 36, 34816, 1, 8160},
 	/* (3840 * 2176) / 256) * 30*/
@@ -259,10 +269,15 @@ static struct msm_vidc_codec_capability lito_capabilities_v0[] = {
 	{CAP_BITRATE, DEC, MPEG2, 1, 40000000, 1, 20000000},
 
 	/* Secure usecase specific */
+<<<<<<< HEAD
 	{CAP_SECURE_FRAME_WIDTH, DEC, CODECS_ALL, 96, 4096, 1, 1920},
 	{CAP_SECURE_FRAME_HEIGHT, DEC, CODECS_ALL, 96, 4096, 1, 1080},
 	{CAP_SECURE_FRAME_WIDTH, ENC, CODECS_ALL, 96, 4096, 2, 1920},
 	{CAP_SECURE_FRAME_HEIGHT, ENC, CODECS_ALL, 96, 4096, 2, 1080},
+=======
+	{CAP_SECURE_FRAME_WIDTH, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1920},
+	{CAP_SECURE_FRAME_HEIGHT, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/* (4096 * 2176) / 256 */
 	{CAP_SECURE_MBS_PER_FRAME, DOMAINS_ALL, CODECS_ALL, 36, 34816, 1, 8160},
 	{CAP_SECURE_BITRATE, DOMAINS_ALL, CODECS_ALL, 1, 40000000, 1, 20000000},
@@ -276,10 +291,17 @@ static struct msm_vidc_codec_capability lito_capabilities_v0[] = {
 	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 240, 1, 30},
 
 	/* Image specific */
+<<<<<<< HEAD
 	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 2, 512},
 	{CAP_HEVC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 128, 512, 2, 512},
 	{CAP_HEIC_IMAGE_FRAME_WIDTH, ENC, HEVC, 512, 8192, 2, 8192},
 	{CAP_HEIC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 512, 8192, 2, 8192},
+=======
+	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 1, 512},
+	{CAP_HEVC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 128, 512, 1, 512},
+	{CAP_HEIC_IMAGE_FRAME_WIDTH, ENC, HEVC, 512, 8192, 1, 8192},
+	{CAP_HEIC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 512, 8192, 1, 8192},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* Level for AVC and HEVC encoder specific.
 	   Default for levels is UNKNOWN value. But if we use unknown
@@ -304,10 +326,15 @@ static struct msm_vidc_codec_capability lito_capabilities_v0[] = {
 
 static struct msm_vidc_codec_capability lito_capabilities_v1[] = {
 	/* {cap_type, domains, codecs, min, max, step_size, default_value} */
+<<<<<<< HEAD
 	{CAP_FRAME_WIDTH, DEC, CODECS_ALL, 96, 4096, 1, 1920},
 	{CAP_FRAME_HEIGHT, DEC, CODECS_ALL, 96, 4096, 1, 1080},
 	{CAP_FRAME_WIDTH, ENC, CODECS_ALL, 96, 4096, 2, 1920},
 	{CAP_FRAME_HEIGHT, ENC, CODECS_ALL, 96, 4096, 2, 1080},
+=======
+	{CAP_FRAME_WIDTH, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1920},
+	{CAP_FRAME_HEIGHT, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/*  ((4096 * 2176) / 256) */
 	{CAP_MBS_PER_FRAME, DOMAINS_ALL, CODECS_ALL, 36, 34816, 1, 8160},
 	/* UHD@30 decode + 1080@30 encode */
@@ -338,10 +365,15 @@ static struct msm_vidc_codec_capability lito_capabilities_v1[] = {
 	{CAP_MAX_VIDEOCORES, DOMAINS_ALL, CODECS_ALL, 0, 1, 1, 1},
 
 	/* VP8 specific */
+<<<<<<< HEAD
 	{CAP_FRAME_WIDTH, DEC, VP8, 96, 1920, 1, 1920},
 	{CAP_FRAME_HEIGHT, DEC, VP8, 96, 1920, 1, 1080},
 	{CAP_FRAME_WIDTH, ENC, VP8, 96, 1920, 2, 1920},
 	{CAP_FRAME_HEIGHT, ENC, VP8, 96, 1920, 2, 1080},
+=======
+	{CAP_FRAME_WIDTH, ENC|DEC, VP8, 96, 1920, 1, 1920},
+	{CAP_FRAME_HEIGHT, ENC|DEC, VP8, 96, 1920, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/* (1920 * 1088) / 256 */
 	{CAP_MBS_PER_FRAME, ENC|DEC, VP8, 36, 8160, 1, 8160},
 	/* ((1920 * 1088) / 256) * 60*/
@@ -361,10 +393,15 @@ static struct msm_vidc_codec_capability lito_capabilities_v1[] = {
 	{CAP_BITRATE, DEC, MPEG2, 1, 40000000, 1, 20000000},
 
 	/* Secure usecase specific */
+<<<<<<< HEAD
 	{CAP_SECURE_FRAME_WIDTH, DEC, CODECS_ALL, 96, 4096, 1, 1920},
 	{CAP_SECURE_FRAME_HEIGHT, DEC, CODECS_ALL, 96, 4096, 1, 1080},
 	{CAP_SECURE_FRAME_WIDTH, ENC, CODECS_ALL, 96, 4096, 2, 1920},
 	{CAP_SECURE_FRAME_HEIGHT, ENC, CODECS_ALL, 96, 4096, 2, 1080},
+=======
+	{CAP_SECURE_FRAME_WIDTH, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1920},
+	{CAP_SECURE_FRAME_HEIGHT, DOMAINS_ALL, CODECS_ALL, 96, 4096, 1, 1080},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	/* (4096 * 2176) / 256 */
 	{CAP_SECURE_MBS_PER_FRAME, DOMAINS_ALL, CODECS_ALL, 36, 34816, 1, 8160},
 	{CAP_SECURE_BITRATE, DOMAINS_ALL, CODECS_ALL, 1, 40000000, 1, 20000000},
@@ -378,10 +415,17 @@ static struct msm_vidc_codec_capability lito_capabilities_v1[] = {
 	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 240, 1, 30},
 
 	/* Image specific */
+<<<<<<< HEAD
 	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 2, 512},
 	{CAP_HEVC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 128, 512, 2, 512},
 	{CAP_HEIC_IMAGE_FRAME_WIDTH, ENC, HEVC, 512, 8192, 2, 8192},
 	{CAP_HEIC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 512, 8192, 2, 8192},
+=======
+	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 1, 512},
+	{CAP_HEVC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 128, 512, 1, 512},
+	{CAP_HEIC_IMAGE_FRAME_WIDTH, ENC, HEVC, 512, 8192, 1, 8192},
+	{CAP_HEIC_IMAGE_FRAME_HEIGHT, ENC, HEVC, 512, 8192, 1, 8192},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* Level for AVC and HEVC encoder specific.
 	   Default for levels is UNKNOWN value. But if we use unknown
@@ -633,7 +677,11 @@ static struct msm_vidc_codec_capability bengal_capabilities_v0[] = {
 	{CAP_SECURE_BITRATE, DOMAINS_ALL, CODECS_ALL, 1, 35000000, 1, 20000000},
 
 	/* All intra encoding usecase specific */
+<<<<<<< HEAD
 	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 60, 1, 30},
+=======
+	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 30, 1, 30},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* Image specific */
 	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 1, 512},
@@ -697,7 +745,11 @@ static struct msm_vidc_codec_capability bengal_capabilities_v1[] = {
 	{CAP_SECURE_BITRATE, DOMAINS_ALL, CODECS_ALL, 1, 35000000, 1, 20000000},
 
 	/* All intra encoding usecase specific */
+<<<<<<< HEAD
 	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 60, 1, 30},
+=======
+	{CAP_ALLINTRA_MAX_FPS, ENC, H264|HEVC, 1, 30, 1, 30},
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* Image specific */
 	{CAP_HEVC_IMAGE_FRAME_WIDTH, ENC, HEVC, 128, 512, 1, 512},

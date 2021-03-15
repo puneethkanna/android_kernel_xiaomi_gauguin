@@ -2126,8 +2126,13 @@ struct sde_rm_rsvp *_sde_rm_poll_get_rsvp_nxt_locked(struct sde_rm *rm,
 		usleep_range(sleep, sleep * 2);
 		mutex_lock(&rm->rm_lock);
 	}
+<<<<<<< HEAD
 	/* make sure to get latest rsvp_next to avoid use after free issues  */
 	return _sde_rm_get_rsvp_nxt(rm, enc);
+=======
+
+	return rsvp_nxt;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 }
 
 int sde_rm_reserve(

@@ -13,9 +13,21 @@
 #include <linux/backlight.h>
 #include <linux/string.h>
 #include "dsi_drm.h"
+<<<<<<< HEAD
 #include "dsi_display.h"
 #include "sde_crtc.h"
 #include "sde_rm.h"
+=======
+#include "dsi_defs.h"
+#include "dsi_display.h"
+#include "sde_crtc.h"
+#include "sde_rm.h"
+#include "sde_trace.h"
+#include "dsi_mi_feature.h"
+#include "dsi_display.h"
+#include "dsi_panel_mi.h"
+#include "xiaomi_frame_stat.h"
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 #define BL_NODE_NAME_SIZE 32
 #define HDR10_PLUS_VSIF_TYPE_CODE      0x81
@@ -110,6 +122,10 @@ static int sde_backlight_device_update_status(struct backlight_device *bd)
 		rc = c_conn->ops.set_backlight(&c_conn->base,
 				c_conn->display, bl_lvl);
 		c_conn->unset_bl_level = 0;
+<<<<<<< HEAD
+=======
+		c_conn->mi_dimlayer_state.current_backlight = bl_lvl;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 
 	return rc;
@@ -525,6 +541,10 @@ static int _sde_connector_update_power_locked(struct sde_connector *c_conn)
 	switch (c_conn->dpms_mode) {
 	case DRM_MODE_DPMS_ON:
 		mode = c_conn->lp_mode;
+<<<<<<< HEAD
+=======
+		c_conn->fod_frame_count = 0;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		break;
 	case DRM_MODE_DPMS_STANDBY:
 		mode = SDE_MODE_DPMS_STANDBY;
@@ -587,6 +607,13 @@ static int _sde_connector_update_bl_scale(struct sde_connector *c_conn)
 
 	bl_config = &dsi_display->panel->bl_config;
 
+<<<<<<< HEAD
+=======
+	if (bl_config->type == DSI_BACKLIGHT_WLED &&
+		bl_config->bl_level == 0)
+		return 0;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	if (!c_conn->allow_bl_update) {
 		c_conn->unset_bl_level = bl_config->bl_level;
 		return 0;
@@ -759,6 +786,159 @@ struct sde_connector_dyn_hdr_metadata *sde_connector_get_dyn_hdr_meta(
 	return &c_state->dyn_hdr_meta;
 }
 
+<<<<<<< HEAD
+=======
+void sde_crtc_fod_ui_ready(struct dsi_display *display, int type, int value)
+{
+	if (!display)
+		return;
+
+	if (type == 1) /* HBM */
+	{
+		if (value == 0)
+			display->panel->mi_cfg.fod_ui_ready &= ~0x01;
+		else if (value == 1)
+			display->panel->mi_cfg.fod_ui_ready |= 0x01;
+	}
+
+	if (type == 2) /* ICON */
+	{
+		if (value == 0)
+			display->panel->mi_cfg.fod_ui_ready &= ~0x02;
+		else if (value == 1)
+			display->panel->mi_cfg.fod_ui_ready |= 0x02;
+
+	}
+
+	SDE_INFO("fod_ui_ready notify=%d", display->panel->mi_cfg.fod_ui_ready);
+	sysfs_notify(&display->drm_conn->kdev->kobj, NULL, "fod_ui_ready");
+}
+
+static void _sde_connector_mi_poll_frame_start(struct drm_encoder *drm_enc)
+{
+	SDE_ATRACE_BEGIN("poll_frame_start");
+	if (sde_encoder_get_intf_mode(drm_enc) == INTF_MODE_VIDEO) {
+		sde_encoder_wait_for_event(drm_enc, MSM_ENC_VBLANK);
+		//sde_encoder_poll_line_counts(drm_enc);
+	} else {
+		sde_encoder_wait_for_event(drm_enc, MSM_ENC_VBLANK);
+	}
+	SDE_ATRACE_END("poll_frame_start");
+}
+
+static int _sde_connector_mi_dimlayer_hbm_fence(struct drm_connector *connector)
+{
+	struct sde_connector *c_conn;
+	struct dsi_display *dsi_display;
+	bool hbm_overlay = false;
+
+	if (!connector) {
+		SDE_ERROR("invalid argument\n");
+		return -EINVAL;
+	}
+
+	c_conn = to_sde_connector(connector);
+
+	if (c_conn->connector_type != DRM_MODE_CONNECTOR_DSI)
+		return 0;
+
+	dsi_display = (struct dsi_display *) c_conn->display;
+	if (!dsi_display || !dsi_display->panel) {
+		SDE_ERROR("invalid display/panel\n");
+		return -EINVAL;
+	}
+
+	if (dsi_display->panel->mi_cfg.crc_off_pending) {
+		sde_connector_pre_hbm_ctl(connector, DISPPARAM_CRC_OFF);
+		dsi_display->panel->mi_cfg.crc_off_pending = false;
+	}
+
+	dsi_display->panel->mi_cfg.layer_fod_unlock_success =
+			c_conn->mi_dimlayer_state.mi_dimlayer_type & MI_FOD_UNLOCK_SUCCESS;
+
+	hbm_overlay = c_conn->mi_dimlayer_state.mi_dimlayer_type & MI_DIMLAYER_FOD_HBM_OVERLAY;
+
+	if (hbm_overlay) {
+		if (!dsi_display->panel->mi_cfg.panel_initialized) {
+			dsi_display->panel->mi_cfg.fod_hbm_overlay_panding = true;
+			dsi_display->panel->mi_cfg.fod_hbm_layer_enabled = true;
+			return 0;
+		}
+		if (dsi_display->panel->mi_cfg.fod_hbm_layer_enabled == false) {
+		/* TODO: mutex_lock(&panel->panel_lock); */
+			sde_connector_hbm_ctl(connector, DISPPARAM_HBM_FOD_ON);
+			_sde_connector_mi_poll_frame_start(c_conn->encoder);
+			dsi_display->panel->mi_cfg.crc_off_pending = true;
+
+			dsi_display->panel->mi_cfg.fod_hbm_layer_enabled = true;
+		}
+	} else {
+		if (dsi_display->panel->mi_cfg.fod_hbm_layer_enabled == true) {
+			sde_connector_hbm_ctl(connector, DISPPARAM_HBM_FOD_OFF);
+			if (dsi_display->panel->mi_cfg.dc_type)
+				sysfs_notify(&c_conn->bl_device->dev.kobj, NULL, "brightness_clone");
+			_sde_connector_mi_poll_frame_start(c_conn->encoder);
+
+			dsi_display->panel->mi_cfg.fod_hbm_layer_enabled = false;
+		}
+	}
+	return 0;
+}
+
+void sde_connector_fod_notify(struct drm_connector *conn)
+{
+	struct sde_connector *c_conn;
+	bool icon, hbm_state;
+	static bool last_icon = false;
+	static bool last_hbm_state = false;
+	struct dsi_display *dsi_display;
+
+	if (!conn) {
+		SDE_ERROR("invalid params\n");
+		return;
+	}
+
+	c_conn = to_sde_connector(conn);
+	if (c_conn->connector_type != DRM_MODE_CONNECTOR_DSI) {
+		SDE_ERROR("not DRM_MODE_CONNECTOR_DSIl\n");
+		return;
+	}
+
+	dsi_display = (struct dsi_display *) c_conn->display;
+	if (!dsi_display || !dsi_display->panel) {
+		SDE_ERROR("invalid display/panel\n");
+		return;
+	}
+
+	icon = c_conn->mi_dimlayer_state.mi_dimlayer_type & MI_DIMLAYER_FOD_ICON;
+	if (last_icon != icon) {
+		if (icon) {
+			/* Make sure icon was displayed on panel before notifying
+			 * fingerprint to capture image */
+			if (dsi_display->panel->mi_cfg.fod_hbm_layer_enabled) {
+				sde_encoder_wait_for_event(c_conn->encoder,
+						MSM_ENC_TX_COMPLETE);
+			}
+
+			sde_crtc_fod_ui_ready(dsi_display, 2, 1);
+		} else {
+			sde_crtc_fod_ui_ready(dsi_display, 2, 0);
+		}
+	}
+	last_icon = icon;
+
+	hbm_state = dsi_display->panel->mi_cfg.fod_hbm_layer_enabled;
+	if (last_hbm_state != hbm_state) {
+		if (hbm_state) {
+			sde_crtc_fod_ui_ready(dsi_display, 1, 1);
+		} else {
+			sde_crtc_fod_ui_ready(dsi_display, 1, 0);
+		}
+	}
+	last_hbm_state = hbm_state;
+}
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 int sde_connector_pre_kickoff(struct drm_connector *connector)
 {
 	struct sde_connector *c_conn;
@@ -804,6 +984,12 @@ int sde_connector_pre_kickoff(struct drm_connector *connector)
 
 	SDE_EVT32_VERBOSE(connector->base.id);
 
+<<<<<<< HEAD
+=======
+	/* fingerprint hbm fence */
+	_sde_connector_mi_dimlayer_hbm_fence(connector);
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	rc = c_conn->ops.pre_kickoff(connector, c_conn->display, &params);
 
 	if (c_conn->connector_type == DRM_MODE_CONNECTOR_DSI)
@@ -1451,11 +1637,23 @@ static int sde_connector_atomic_set_property(struct drm_connector *connector,
 	 * atomic set property framework.
 	 */
 	case CONNECTOR_PROP_BL_SCALE:
+<<<<<<< HEAD
 		c_conn->bl_scale = val;
 		c_conn->bl_scale_dirty = true;
 		break;
 	case CONNECTOR_PROP_SV_BL_SCALE:
 		c_conn->bl_scale_sv = val;
+=======
+		/* fix qualcom's LTM issue*/
+		/*c_conn->bl_scale = val;*/
+		c_conn->bl_scale = MAX_BL_SCALE_LEVEL;
+		c_conn->bl_scale_dirty = true;
+		break;
+	case CONNECTOR_PROP_SV_BL_SCALE:
+		/* fix qualcom's LTM issue*/
+		/*c_conn->bl_scale_sv = val;*/
+		c_conn->bl_scale_sv = MAX_SV_BL_SCALE_LEVEL;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		c_conn->bl_scale_dirty = true;
 		break;
 	case CONNECTOR_PROP_HDR_METADATA:
@@ -1970,6 +2168,10 @@ static int sde_connector_init_debugfs(struct drm_connector *connector)
 
 static int sde_connector_late_register(struct drm_connector *connector)
 {
+<<<<<<< HEAD
+=======
+	smart_fps_init_debugfs(connector);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return sde_connector_init_debugfs(connector);
 }
 
@@ -2124,6 +2326,11 @@ static int sde_connector_atomic_check(struct drm_connector *connector,
 		struct drm_connector_state *new_conn_state)
 {
 	struct sde_connector *c_conn;
+<<<<<<< HEAD
+=======
+	struct sde_connector_state *c_state;
+	bool qsync_dirty = false, has_modeset = false;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	if (!connector) {
 		SDE_ERROR("invalid connector\n");
@@ -2136,6 +2343,22 @@ static int sde_connector_atomic_check(struct drm_connector *connector,
 	}
 
 	c_conn = to_sde_connector(connector);
+<<<<<<< HEAD
+=======
+	c_state = to_sde_connector_state(new_conn_state);
+
+	has_modeset = sde_crtc_atomic_check_has_modeset(new_conn_state->state,
+						new_conn_state->crtc);
+	qsync_dirty = msm_property_is_dirty(&c_conn->property_info,
+					&c_state->property_state,
+					CONNECTOR_PROP_QSYNC_MODE);
+
+	SDE_DEBUG("has_modeset %d qsync_dirty %d\n", has_modeset, qsync_dirty);
+	if (has_modeset && qsync_dirty) {
+		SDE_ERROR("invalid qsync update during modeset\n");
+		return -EINVAL;
+	}
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	if (c_conn->ops.atomic_check)
 		return c_conn->ops.atomic_check(connector,
@@ -2148,6 +2371,10 @@ static void _sde_connector_report_panel_dead(struct sde_connector *conn,
 	bool skip_pre_kickoff)
 {
 	struct drm_event event;
+<<<<<<< HEAD
+=======
+	struct dsi_display *display = (struct dsi_display *)(conn->display);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	if (!conn)
 		return;
@@ -2161,6 +2388,10 @@ static void _sde_connector_report_panel_dead(struct sde_connector *conn,
 		return;
 
 	conn->panel_dead = true;
+<<<<<<< HEAD
+=======
+	display->panel->mi_cfg.panel_dead_flag = true;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	event.type = DRM_EVENT_PANEL_DEAD;
 	event.length = sizeof(bool);
 	msm_mode_object_event_notify(&conn->base.base,
@@ -2172,6 +2403,7 @@ static void _sde_connector_report_panel_dead(struct sde_connector *conn,
 			conn->base.base.id, conn->encoder->base.id);
 }
 
+<<<<<<< HEAD
 int sde_connector_esd_status(struct drm_connector *conn)
 {
 	struct sde_connector *sde_conn = NULL;
@@ -2212,21 +2444,37 @@ int sde_connector_esd_status(struct drm_connector *conn)
 	return ret;
 }
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 static void sde_connector_check_status_work(struct work_struct *work)
 {
 	struct sde_connector *conn;
 	int rc = 0;
 	struct device *dev;
+<<<<<<< HEAD
 
 	conn = container_of(to_delayed_work(work),
 			struct sde_connector, status_work);
 	if (!conn) {
+=======
+	struct dsi_display *display;
+	struct drm_panel_esd_config *esd_cfg;
+
+	conn = container_of(to_delayed_work(work),
+			struct sde_connector, status_work);
+	if (!conn || !conn->display) {
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		SDE_ERROR("not able to get connector object\n");
 		return;
 	}
 
 	mutex_lock(&conn->lock);
 	dev = conn->base.dev->dev;
+<<<<<<< HEAD
+=======
+	display = conn->display;
+	esd_cfg = &display->panel->esd_config;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	if (!conn->ops.check_status || dev->power.is_suspended ||
 			(conn->dpms_mode != DRM_MODE_DPMS_ON)) {
@@ -2238,6 +2486,7 @@ static void sde_connector_check_status_work(struct work_struct *work)
 	rc = conn->ops.check_status(&conn->base, conn->display, false);
 	mutex_unlock(&conn->lock);
 
+<<<<<<< HEAD
 	if (rc > 0) {
 		u32 interval;
 
@@ -2247,6 +2496,23 @@ static void sde_connector_check_status_work(struct work_struct *work)
 		/* If debugfs property is not set then take default value */
 		interval = conn->esd_status_interval ?
 			conn->esd_status_interval : STATUS_CHECK_INTERVAL_MS;
+=======
+	if (rc > 0 || esd_cfg->status_value_ignore) {
+		u32 interval = esd_cfg->esd_status_interval ?
+			esd_cfg->esd_status_interval : STATUS_CHECK_INTERVAL_MS;
+
+		if (rc > 0)
+			SDE_DEBUG("esd check status success conn_id: %d enc_id: %d\n",
+				conn->base.base.id, conn->encoder->base.id);
+		else
+			SDE_INFO("Ignore esd check status error conn_id: %d enc_id: %d\n",
+				conn->base.base.id, conn->encoder->base.id);
+
+		/* If debugfs property is not set then take default value */
+		if (conn->esd_status_interval)
+			interval = conn->esd_status_interval;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		schedule_delayed_work(&conn->status_work,
 			msecs_to_jiffies(interval));
 		return;
@@ -2806,3 +3072,116 @@ int sde_connector_event_notify(struct drm_connector *connector, uint32_t type,
 
 	return ret;
 }
+<<<<<<< HEAD
+=======
+
+int sde_connector_hbm_ctl(struct drm_connector *connector, uint32_t op_code)
+{
+	int ret = 0;
+
+	SDE_ATRACE_BEGIN("sde_connector_hbm_ctl");
+	ret = dsi_display_hbm_set_disp_param(connector, op_code);
+	SDE_ATRACE_END("sde_connector_hbm_ctl");
+	return ret;
+}
+
+int sde_connector_pre_hbm_ctl(struct drm_connector *connector, uint32_t op_code)
+{
+	int ret;
+	/* close dimming */
+	ret = dsi_display_hbm_set_disp_param(connector, op_code);
+	return ret;
+}
+
+#define to_dsi_bridge(x)     container_of((x), struct dsi_bridge, base)
+
+static uint32_t interpolate(uint32_t x, uint32_t xa, uint32_t xb, uint32_t ya, uint32_t yb)
+{
+	uint32_t bf;
+
+	bf = ya - (ya - yb) * (x - xa) / (xb - xa);
+
+	SDE_DEBUG("backlight brightness:%d, [i-1]bl:%d, [i]bl:%d, [i-1]alpha:%d, [i]alpha:%d, bf:%d",
+			x, xa, xb, ya, yb, bf);
+
+	return bf;
+}
+
+static uint32_t brightness_to_alpha(struct dsi_panel_mi_cfg *mi_cfg, uint32_t brightness)
+{
+	int i;
+	int level = mi_cfg->brightnes_alpha_lut_item_count;
+
+	if (brightness == 0x0)
+		return mi_cfg->brightness_alpha_lut[0].alpha;
+
+	for (i = 0; i < level; i++){
+		if (mi_cfg->brightness_alpha_lut[i].brightness >= brightness)
+			break;
+	}
+
+	if (i == level)
+		return mi_cfg->brightness_alpha_lut[i - 1].alpha;
+	else
+		return interpolate(brightness,
+							mi_cfg->brightness_alpha_lut[i-1].brightness, mi_cfg->brightness_alpha_lut[i].brightness,
+							mi_cfg->brightness_alpha_lut[i-1].alpha, mi_cfg->brightness_alpha_lut[i].alpha);
+}
+
+void sde_connector_mi_get_current_alpha(struct drm_connector *connector, uint32_t brightness, uint32_t *alpha)
+{
+	struct dsi_display *display = NULL;
+	struct dsi_bridge *c_bridge = NULL;
+	struct dsi_panel_mi_cfg *mi_cfg = NULL;
+
+	if (!connector || !connector->encoder || !connector->encoder->bridge) {
+		SDE_ERROR("Invalid connector/encoder/bridge ptr\n");
+		return;
+	}
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	display = c_bridge->display;
+	if (!display || !display->panel) {
+		SDE_ERROR("invalid display/panel ptr\n");
+		return;
+	}
+
+	mi_cfg = &display->panel->mi_cfg;
+
+	*alpha = brightness_to_alpha(mi_cfg, brightness);
+	return;
+}
+
+void sde_connector_mi_get_current_backlight(struct drm_connector *connector, uint32_t *brightness)
+{
+	struct sde_connector *c_conn = to_sde_connector(connector);
+	struct dsi_display *display = NULL;
+	struct dsi_bridge *c_bridge = NULL;
+
+	if (!connector || !connector->encoder || !connector->encoder->bridge) {
+		SDE_ERROR("Invalid connector/encoder/bridge ptr\n");
+		return;
+	}
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	display = c_bridge->display;
+	if (!display || !display->panel) {
+		SDE_ERROR("invalid display/panel ptr\n");
+		return;
+	}
+
+	if (display->panel->mi_cfg.in_aod) {
+		*brightness = display->panel->mi_cfg.aod_backlight;
+		return;
+	}
+
+	*brightness = c_conn->mi_dimlayer_state.current_backlight;
+}
+
+void sde_connector_mi_update_dimlayer_state(struct drm_connector *connector,
+	enum mi_dimlayer_type mi_dimlayer_type)
+{
+	struct sde_connector *c_conn = to_sde_connector(connector);
+	c_conn->mi_dimlayer_state.mi_dimlayer_type = mi_dimlayer_type;
+}
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R

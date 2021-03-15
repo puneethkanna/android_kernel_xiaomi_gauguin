@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+<<<<<<< HEAD
  * Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
+=======
+ * Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
  */
 #include <drm/msm_drm_pp.h>
 #include "sde_hw_color_proc_common_v4.h"
@@ -335,11 +339,15 @@ void sde_setup_dspp_ltm_hist_ctrlv1(struct sde_hw_dspp *ctx, void *cfg,
 	op_mode = SDE_REG_READ(&ctx->hw, offset);
 
 	if (!enable) {
+<<<<<<< HEAD
 		if (op_mode & BIT(1))
 			op_mode &= ~BIT(0);
 		else
 			op_mode = 0;
 
+=======
+		op_mode &= ~BIT(0);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		SDE_REG_WRITE(&ctx->hw, ctx->cap->sblk->ltm.base + 0x4,
 			(op_mode & 0x1FFFFFF));
 		return;

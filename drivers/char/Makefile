@@ -75,5 +75,9 @@ obj-$(CONFIG_VSERVICES_SERIAL_CLIENT)	+= vs_serial_client.o
 CFLAGS_vs_serial_client.o	 += -Werror
 obj-$(CONFIG_VSERVICES_SERIAL_SERVER)	+= vs_serial_server.o
 CFLAGS_vs_serial_server.o	+= -Werror
+<<<<<<< HEAD
 obj-$(CONFIG_RB5_FAN_CONTROLLER)	+= rb5_fan.o
 obj-$(CONFIG_RB5_GPIOS_ENABLE)	+= rb5-gpios-enable.o
+=======
+obj-$(CONFIG_XLOGCHAR)		+= xlogchar.o
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R

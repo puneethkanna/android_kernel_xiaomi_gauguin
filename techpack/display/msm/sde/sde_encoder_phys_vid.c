@@ -10,6 +10,10 @@
 #include "sde_formats.h"
 #include "dsi_display.h"
 #include "sde_trace.h"
+<<<<<<< HEAD
+=======
+#include "xiaomi_frame_stat.h"
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 #define SDE_DEBUG_VIDENC(e, fmt, ...) SDE_DEBUG("enc%d intf%d " fmt, \
 		(e) && (e)->base.parent ? \
@@ -461,7 +465,11 @@ static void sde_encoder_phys_vid_setup_timing_engine(
 exit:
 	if (phys_enc->parent_ops.get_qsync_fps)
 		phys_enc->parent_ops.get_qsync_fps(
+<<<<<<< HEAD
 			phys_enc->parent, &qsync_min_fps, mode.vrefresh);
+=======
+				phys_enc->parent, &qsync_min_fps);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	/* only panels which support qsync will have a non-zero min fps */
 	if (qsync_min_fps) {
@@ -515,6 +523,10 @@ static void sde_encoder_phys_vid_vblank_irq(void *arg, int irq_idx)
 		event = SDE_ENCODER_FRAME_EVENT_DONE |
 			SDE_ENCODER_FRAME_EVENT_SIGNAL_RETIRE_FENCE |
 			SDE_ENCODER_FRAME_EVENT_SIGNAL_RELEASE_FENCE;
+<<<<<<< HEAD
+=======
+		frame_stat_collector(0, VBLANK_TS);
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	}
 
 not_flushed:
@@ -1125,13 +1137,19 @@ static void sde_encoder_phys_vid_handle_post_kickoff(
 static void sde_encoder_phys_vid_prepare_for_commit(
 		struct sde_encoder_phys *phys_enc)
 {
+<<<<<<< HEAD
 	struct drm_crtc *crtc;
 
 	if (!phys_enc  || !phys_enc->parent) {
+=======
+
+	if (!phys_enc) {
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		SDE_ERROR("invalid encoder parameters\n");
 		return;
 	}
 
+<<<<<<< HEAD
 	crtc = phys_enc->parent->crtc;
 	if (!crtc || !crtc->state) {
 		SDE_ERROR("invalid crtc or crtc state\n");
@@ -1140,6 +1158,9 @@ static void sde_encoder_phys_vid_prepare_for_commit(
 
 	if (!msm_is_mode_seamless_vrr(&crtc->state->adjusted_mode) &&
 		sde_connector_is_qsync_updated(phys_enc->connector))
+=======
+	if (sde_connector_is_qsync_updated(phys_enc->connector))
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 		_sde_encoder_phys_vid_avr_ctrl(phys_enc);
 
 }

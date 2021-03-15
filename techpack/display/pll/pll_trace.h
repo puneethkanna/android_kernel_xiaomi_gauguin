@@ -105,5 +105,9 @@ TRACE_EVENT(mdss_pll_trace_counter,
 
 /* This part must be outside protection */
 #undef TRACE_INCLUDE_PATH
+<<<<<<< HEAD
 #define TRACE_INCLUDE_PATH ../techpack/display/pll
+=======
+#define TRACE_INCLUDE_PATH .
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #include <trace/define_trace.h>

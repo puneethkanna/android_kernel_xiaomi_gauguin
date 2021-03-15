@@ -61,6 +61,12 @@
 #define MSM_VERSION_MINOR	3
 #define MSM_VERSION_PATCHLEVEL	0
 
+<<<<<<< HEAD
+=======
+atomic_t resume_pending;
+wait_queue_head_t resume_wait_q;
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 static void msm_fb_output_poll_changed(struct drm_device *dev)
 {
 	struct msm_drm_private *priv = NULL;
@@ -1336,6 +1342,7 @@ static int msm_ioctl_register_event(struct drm_device *dev, void *data,
 	 * calls add to client list and return.
 	 */
 	count = msm_event_client_count(dev, req_event, false);
+<<<<<<< HEAD
 	if (count) {
 		/* Add current client to list */
 		spin_lock_irqsave(&dev->event_lock, flag);
@@ -1343,12 +1350,22 @@ static int msm_ioctl_register_event(struct drm_device *dev, void *data,
 		spin_unlock_irqrestore(&dev->event_lock, flag);
 		return 0;
 	}
+=======
+	/* Add current client to list */
+	spin_lock_irqsave(&dev->event_lock, flag);
+	list_add_tail(&client->base.link, &priv->client_event_list);
+	spin_unlock_irqrestore(&dev->event_lock, flag);
+
+	if (count)
+		return 0;
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 
 	ret = msm_register_event(dev, req_event, file, true);
 	if (ret) {
 		DRM_ERROR("failed to enable event %x object %x object id %d\n",
 			req_event->event, req_event->object_type,
 			req_event->object_id);
+<<<<<<< HEAD
 		kfree(client);
 	} else {
 		/* Add current client to list */
@@ -1357,6 +1374,13 @@ static int msm_ioctl_register_event(struct drm_device *dev, void *data,
 		spin_unlock_irqrestore(&dev->event_lock, flag);
 	}
 
+=======
+		spin_lock_irqsave(&dev->event_lock, flag);
+		list_del(&client->base.link);
+		spin_unlock_irqrestore(&dev->event_lock, flag);
+		kfree(client);
+	}
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return ret;
 }
 
@@ -1497,6 +1521,7 @@ static int msm_release(struct inode *inode, struct file *filp)
 		kfree(node);
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Handle preclose operation here for removing fb's whose
 	 * refcount > 1. This operation is not triggered from upstream
@@ -1504,6 +1529,8 @@ static int msm_release(struct inode *inode, struct file *filp)
 	 */
 	msm_preclose(dev, file_priv);
 
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	return drm_release(inode, filp);
 }
 
@@ -1664,6 +1691,10 @@ static struct drm_driver msm_driver = {
 				DRIVER_ATOMIC |
 				DRIVER_MODESET,
 	.open               = msm_open,
+<<<<<<< HEAD
+=======
+	.preclose           = msm_preclose,
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	.postclose          = msm_postclose,
 	.lastclose          = msm_lastclose,
 	.irq_handler        = msm_irq,
@@ -1700,6 +1731,23 @@ static struct drm_driver msm_driver = {
 };
 
 #ifdef CONFIG_PM_SLEEP
+<<<<<<< HEAD
+=======
+
+static int msm_pm_prepare(struct device *dev)
+{
+	atomic_inc(&resume_pending);
+	return 0;
+}
+
+static void msm_pm_complete(struct device *dev)
+{
+	atomic_set(&resume_pending, 0);
+	wake_up_all(&resume_wait_q);
+	return;
+}
+
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 static int msm_pm_suspend(struct device *dev)
 {
 	struct drm_device *ddev;
@@ -1785,6 +1833,11 @@ static int msm_runtime_resume(struct device *dev)
 #endif
 
 static const struct dev_pm_ops msm_pm_ops = {
+<<<<<<< HEAD
+=======
+	.prepare = msm_pm_prepare,
+	.complete = msm_pm_complete,
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 	SET_SYSTEM_SLEEP_PM_OPS(msm_pm_suspend, msm_pm_resume)
 	SET_RUNTIME_PM_OPS(msm_runtime_suspend, msm_runtime_resume, NULL)
 };

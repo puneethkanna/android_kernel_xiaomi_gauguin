@@ -18,7 +18,10 @@
 
 #include <linux/dma-mapping.h>
 #include <linux/dma-buf.h>
+<<<<<<< HEAD
 #include <linux/msm_ion.h>
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
 #include <drm/drm_crtc.h>
 #include <drm/drm_crtc_helper.h>
 #include <drm/drm_gem_framebuffer_helper.h>
@@ -528,6 +531,7 @@ msm_alloc_stolen_fb(struct drm_device *dev, int w, int h, int p, uint32_t format
 
 	return fb;
 }
+<<<<<<< HEAD
 
 int msm_fb_obj_get_attrs(struct drm_gem_object *obj, int *fb_ns,
 	 int *fb_sec, int *fb_sec_dir, unsigned long *flags)
@@ -558,3 +562,5 @@ int msm_fb_obj_get_attrs(struct drm_gem_object *obj, int *fb_ns,
 
 	return ret;
 }
+=======
+>>>>>>> f205e61e363a... Kernel: Xiaomi kernel changes for Redmi Note 9 Pro Android R
